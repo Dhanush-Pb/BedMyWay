@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "960391654911",
+    "project_id": "hotelonwer-2f95e",
+    "storage_bucket": "hotelonwer-2f95e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960391654911:android:3709ab7dc1b42f51fa0bca",
+        "android_client_info": {
+          "package_name": "com.example.bedmyway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960391654911-812jfb1rudnda15js6244aj57n84f3ki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDziSCImtcOXNtj9aLdrsY-SxjK-2mzlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960391654911-812jfb1rudnda15js6244aj57n84f3ki.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960391654911-l1cp5c202tfdbb0a78o85k9kjke0si54.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hotelonwer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960391654911:android:5753abc6658553b2fa0bca",
+        "android_client_info": {
+          "package_name": "com.example.hotelonwer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960391654911-ua347dm6r30ljv37tdp3126rs4titfiq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hotelonwer",
+            "certificate_hash": "c7ebc0ff83d1fc2bfc8dd6441a9d6987eacb4f49"
+          }
+        },
+        {
+          "client_id": "960391654911-812jfb1rudnda15js6244aj57n84f3ki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDziSCImtcOXNtj9aLdrsY-SxjK-2mzlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960391654911-812jfb1rudnda15js6244aj57n84f3ki.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960391654911-l1cp5c202tfdbb0a78o85k9kjke0si54.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hotelonwer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
