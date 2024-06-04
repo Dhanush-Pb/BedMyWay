@@ -40,7 +40,9 @@ class _LogingpageState extends State<Logingpage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        toolbarHeight: 30,
+      ),
       body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
         if (state is Authenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -76,7 +78,12 @@ class _LogingpageState extends State<Logingpage> {
         return Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.asset(
+                'assets/images/Screenshot 2024-05-06 212614.png',
+                width: 120,
+              ),
               const Spacer(),
               Container(
                 padding: const EdgeInsets.all(20),
@@ -198,6 +205,8 @@ class _LogingpageState extends State<Logingpage> {
                     GestureDetector(
                       onTap: () {
                         signInWithGoogle(context);
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(GoogleSignInEvent());
                       },
                       child: Container(
                         height: 45,

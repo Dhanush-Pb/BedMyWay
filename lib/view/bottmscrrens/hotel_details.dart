@@ -1,3 +1,5 @@
+import 'package:bedmyway/repositories/custom/page_transition.dart';
+import 'package:bedmyway/view/bottmscrrens/booking_pade.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -174,33 +176,28 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Appcolor.black,
-                                borderRadius: BorderRadius.circular(6)),
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 2,
+                          Row(
+                            children: [
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              const Icon(
+                                Icons.star_purple500_outlined,
+                                color: Color.fromARGB(255, 236, 213, 4),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                '3/5',
+                                style: TextStyle(
+                                  color: Appcolor.black,
                                 ),
-                                const Icon(
-                                  Icons.star_purple500_outlined,
-                                  color: Colors.yellow,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '3/5',
-                                  style: TextStyle(
-                                    color: Appcolor.white,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                )
-                              ],
-                            ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              )
+                            ],
                           ),
                         ],
                       )
@@ -217,16 +214,44 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'View on Map',
-                    style: TextStyle(fontSize: 15, color: Appcolor.blue),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'View on Map',
+                        style: TextStyle(fontSize: 15, color: Appcolor.blue),
+                      ),
+                      Text('Wifi: ${widget.hotel['wifi']}')
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  const Text(
-                    'About the Hotel',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'About the Hotel',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      Text('Refund: ${widget.hotel['Refundoption']}')
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text(
+                        'Room type: ',
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        widget.hotel['Room'],
+                      )
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -236,97 +261,105 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                   const SizedBox(height: 10),
                   const Text(
                     "The choice BedMyWay property comes with a promise of 8 assured amenities, money-back guarantee and priority helpline support. You also get free cancellation and standardized prices through the year.",
-                    style:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromARGB(255, 244, 242, 242),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 1,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Spacer(),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 5),
-                            Stack(
-                              children: [
-                                Text(
-                                  '\$ ${(double.parse(widget.hotel['price'].replaceAll(',', '')) * 1.5).toStringAsFixed(1)}',
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  left: 0,
-                                  child: Container(
-                                    height: 2,
-                                    color:
-                                        const Color.fromARGB(154, 70, 157, 228),
-                                    width: 90, // Adjust width as needed
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '\$ ${widget.hotel['price']}',
-                              style: const TextStyle(
-                                fontSize: 19,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ), // Add some spacing
-                          ],
-                        ),
-                        const Spacer(),
-                        const Spacer(flex: 4),
-                        Container(
-                          width: 200,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Appcolor.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Book now & Pay at Hotel',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 12.5,
-                                color: Appcolor.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  )
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(FadePageRoute(
+              page: Bookingsectionpage(
+            touristdetails: widget.hotel['touristlocaton'],
+            adreess: widget.hotel['sinceYear'],
+            TourImages: widget.hotel['tourimage'],
+            price: widget.hotel['price'],
+            contact: widget.hotel['contact'],
+            hotelname: widget.hotel['name'],
+            roomImages: widget.hotel['images'],
+          )));
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: const Color.fromARGB(255, 244, 242, 242),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 1,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  Stack(
+                    children: [
+                      Text(
+                        '\$ ${(double.parse(widget.hotel['price'].replaceAll(',', '')) * 1.5).toStringAsFixed(1)}',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Positioned(
+                        top: 8,
+                        left: 0,
+                        child: Container(
+                          height: 2,
+                          color: const Color.fromARGB(154, 70, 157, 228),
+                          width: 90, // Adjust width as needed
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '\$ ${widget.hotel['price']}',
+                    style: const TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ), // Add some spacing
+                ],
+              ),
+              const Spacer(),
+              const Spacer(flex: 4),
+              Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Appcolor.red,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Book now & Pay at Hotel',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12.5,
+                      color: Appcolor.white,
+                    ),
+                  ),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
       ),
     );
   }

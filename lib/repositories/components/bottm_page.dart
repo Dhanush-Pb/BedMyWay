@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use, library_private_types_in_public_api
 
+import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/view/bottmscrrens/home_page.dart';
 import 'package:bedmyway/view/bottmscrrens/mesg_page.dart';
 import 'package:bedmyway/view/bottmscrrens/my_booking.dart';
@@ -36,15 +37,15 @@ class _NavigationMenuState extends State<NavigationMenu> {
             right: 0,
             bottom: 0,
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
+              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
               child: Container(
                 padding: EdgeInsets.all(0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(35),
-                  color: const Color.fromARGB(45, 180, 180, 180),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(77, 180, 180, 180),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(12),
                   child: GNav(
                     gap: 8,
                     activeColor: Colors.white,

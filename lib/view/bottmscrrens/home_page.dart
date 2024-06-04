@@ -219,9 +219,15 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ],
                           ),
-                          Text(
-                            hotel['sinceYear'],
-                            overflow: TextOverflow.ellipsis,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                hotel['Room'],
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text('Refund :${hotel['Refundoption']}')
+                            ],
                           )
                         ],
                       ),
@@ -479,8 +485,9 @@ class _HomepageState extends State<Homepage> {
                         buttonText: 'Yes',
                         onPressed: () {
                           final AuthBlocs = BlocProvider.of<AuthBloc>(context);
-                          AuthBlocs.add(logoutevent());
                           signOut(context);
+                          AuthBlocs.add(logoutevent());
+                          AuthBlocs.add(GoogleSignOutEvent());
                           Navigator.of(context).pushAndRemoveUntil(
                             FadePageRoute(page: const Logingpage()),
                             (route) => false,
