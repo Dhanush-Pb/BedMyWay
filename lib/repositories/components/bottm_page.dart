@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use, library_private_types_in_public_api
 
-import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/view/bottmscrrens/home_page.dart';
 import 'package:bedmyway/view/bottmscrrens/mesg_page.dart';
 import 'package:bedmyway/view/bottmscrrens/my_booking.dart';

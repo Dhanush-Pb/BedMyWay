@@ -65,10 +65,9 @@ class _HomepageState extends State<Homepage> {
       body: BlocBuilder<HoteldataBloc, HoteldataState>(
         builder: (context, state) {
           if (state is HoteldataLoading) {
-            return Container(
-              child: const CircularProgressIndicator(),
-            );
+            return const CircularProgressIndicator();
           } else if (state is HotelDatafetched) {
+            //!carouselItems1
             List<Widget> carouselItems = state.hotels.map((hotel) {
               final roomImages = hotel['images'] as List<dynamic>;
               final firstImageUrl =
@@ -90,10 +89,45 @@ class _HomepageState extends State<Homepage> {
                               ? Image.network(
                                   firstImageUrl,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      return child;
+                                    } else {
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        period:
+                                            const Duration(milliseconds: 1000),
+                                        direction: ShimmerDirection.ltr,
+                                        child: Container(color: Colors.white),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      period: const Duration(
+                                          milliseconds:
+                                              1000), // Adjust the animation duration
+                                      direction: ShimmerDirection
+                                          .ltr, // Set the direction of the animation
+                                      child: Container(color: Colors.white),
+                                    );
+                                  },
                                 )
                               : Shimmer.fromColors(
                                   baseColor: Colors.grey[300]!,
                                   highlightColor: Colors.grey[100]!,
+                                  period: const Duration(
+                                      milliseconds:
+                                          1000), // Adjust the animation duration
+                                  direction: ShimmerDirection
+                                      .ltr, // Set the direction of the animation
                                   child: Container(color: Colors.white),
                                 ),
                         ),
@@ -106,10 +140,12 @@ class _HomepageState extends State<Homepage> {
                       child: Container(
                         height: 55,
                         decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10))),
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          ),
+                        ),
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, top: 5),
                         child: Column(
@@ -130,12 +166,13 @@ class _HomepageState extends State<Homepage> {
                                 Text(
                                   hotel['locaton'] ?? 'Location',
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700),
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                                 Text(
-                                  'Price: \$${hotel['price'] ?? 'N/A'}',
+                                  'Price: ₹${hotel['price'] ?? 'N/A'}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -151,6 +188,7 @@ class _HomepageState extends State<Homepage> {
                 ),
               );
             }).toList();
+            //! CarouselItems2
             List<Widget> carouselItems2 = state.hotels.map((hotel) {
               final roomImages = hotel['images'] as List<dynamic>;
               final secondImageUrl =
@@ -174,6 +212,41 @@ class _HomepageState extends State<Homepage> {
                               ? Image.network(
                                   secondImageUrl,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      // Image loaded successfully
+                                      return child;
+                                    } else {
+                                      // Image still loading, display shimmer
+                                      return Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          color: Colors.white,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 200,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    // Error occurred while loading image, display shimmer
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        color: Colors.white,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 200,
+                                      ),
+                                    );
+                                  },
                                 )
                               : Shimmer.fromColors(
                                   baseColor:
@@ -181,8 +254,11 @@ class _HomepageState extends State<Homepage> {
                                   highlightColor:
                                       const Color.fromARGB(255, 67, 67, 67),
                                   child: Container(
-                                      color: const Color.fromARGB(
-                                          255, 62, 62, 62)),
+                                    color:
+                                        const Color.fromARGB(255, 62, 62, 62),
+                                    width: double.infinity,
+                                    height: 200,
+                                  ),
                                 ),
                         ),
                       ),
@@ -209,9 +285,8 @@ class _HomepageState extends State<Homepage> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              const SizedBox(height: 4),
                               Text(
-                                'Price: \$${hotel['price'] ?? 'N/A'}',
+                                'Price: ₹${hotel['price'] ?? 'N/A'}',
                                 style: TextStyle(
                                   color: Appcolor.black,
                                   fontSize: 16,
@@ -223,10 +298,12 @@ class _HomepageState extends State<Homepage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                hotel['Room'],
+                                hotel['Room'] ?? 'Room',
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Text('Refund :${hotel['Refundoption']}')
+                              Text(
+                                'Refund: ${hotel['Refundoption'] ?? 'N/A'}',
+                              ),
                             ],
                           )
                         ],
@@ -238,6 +315,7 @@ class _HomepageState extends State<Homepage> {
             }).toList();
 
             final countofhotel = state.hotels.length;
+
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,9 +501,31 @@ class _HomepageState extends State<Homepage> {
               ),
             );
           }
-          return Container();
+          return // Widget to build shimmer loading list with shimmer effect for each item
+
+              ListView.builder(
+            itemCount: 30, // Number of shimmer items
+            itemBuilder: (context, index) {
+              return Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: ListTile(
+                  leading: Container(
+                    height: 50,
+                    width: 60,
+                    color: Colors.grey,
+                  ),
+                  title: Container(
+                    color: Colors.grey,
+                    height: 10,
+                  ),
+                ),
+              );
+            },
+          );
         },
       ),
+      //!Drawer
       drawer: Drawer(
         child: Container(
           color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9),
@@ -524,11 +624,7 @@ class _HomepageState extends State<Homepage> {
                   'About',
                   style: TextStyle(color: Appcolor.white),
                 ),
-                onTap: () {
-                  // Handle about
-
-                  // Handle contact us
-                },
+                onTap: () {},
               ),
             ],
           ),
@@ -536,34 +632,4 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
-
-  // Widget _buildShimmerCarousel() {
-  //   return Shimmer.fromColors(
-  //     baseColor: const Color.fromARGB(255, 0, 217, 255),
-  //     highlightColor: const Color.fromARGB(255, 123, 245, 9),
-  //     child: CarouselSlider.builder(
-  //       itemCount: 5, // Adjust the number of shimmer items as needed
-  //       itemBuilder: (BuildContext context, int index, int realIndex) {
-  //         return Padding(
-  //           padding: const EdgeInsets.symmetric(horizontal: 8),
-  //           child: Container(
-  //             decoration: BoxDecoration(
-  //               color: Colors.black.withOpacity(0.5),
-  //               borderRadius: BorderRadius.circular(10),
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //       options: CarouselOptions(
-  //         height: 200,
-  //         aspectRatio: 16 / 9,
-  //         autoPlayCurve: Curves.fastOutSlowIn,
-  //         enableInfiniteScroll: true,
-  //         autoPlayAnimationDuration: const Duration(milliseconds: 700),
-  //         viewportFraction: 0.8,
-  //         pageSnapping: true,
-  //       ),
-  //     ),
-  //   );
-  // }
 }
