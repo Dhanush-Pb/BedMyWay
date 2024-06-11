@@ -1,4 +1,5 @@
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
+import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/firebase_options.dart';
 import 'package:bedmyway/view/on_&_splash/splash_screen.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider(
+          create: (context) => BookBloc(),
         ),
       ],
       child: MaterialApp(

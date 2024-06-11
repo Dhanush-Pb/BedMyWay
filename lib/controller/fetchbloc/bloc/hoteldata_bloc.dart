@@ -1,6 +1,9 @@
+// ignore_for_file: unused_field
+
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 part 'hoteldata_event.dart';
@@ -8,7 +11,7 @@ part 'hoteldata_state.dart';
 
 class HoteldataBloc extends Bloc<HoteldataEvent, HoteldataState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   HoteldataBloc() : super(HoteldataInitial()) {
     on<HoteldataEvent>((event, emit) async {
       if (event is FetchdataEvent) {

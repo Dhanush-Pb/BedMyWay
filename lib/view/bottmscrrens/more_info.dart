@@ -1,135 +1,44 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:ui';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bedmyway/Model/goolgle_map.dart';
-import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
-class Bookingsectionpage extends StatefulWidget {
+class MoreInfoPage extends StatefulWidget {
   final List<dynamic> TourImages;
   final String adreess;
   final String touristdetails;
   final String contact;
-  final String price;
   final String hotelname;
   final String location;
   final List<dynamic> roomImages;
-  final String docid;
+  final String messageDirection;
 
-  const Bookingsectionpage({
+  const MoreInfoPage({
     Key? key,
     required this.TourImages,
     required this.adreess,
     required this.touristdetails,
-    required this.contact,
-    required this.price,
     required this.hotelname,
     required this.roomImages,
     required this.location,
-    required this.docid,
+    required this.contact,
+    required this.messageDirection,
   }) : super(key: key);
 
   @override
-  State<Bookingsectionpage> createState() => _BookingsectionpageState();
+  State<MoreInfoPage> createState() => _MoreInfoPageState();
 }
 
-class _BookingsectionpageState extends State<Bookingsectionpage> {
+class _MoreInfoPageState extends State<MoreInfoPage> {
   bool showtourimage = false;
   int _currentindexT = 0;
-  late Razorpay _razorpay;
-  String? _paymentId;
-  @override
-  void initState() {
-    super.initState();
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    // _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-  }
-
-  @override
-  void dispose() {
-    _razorpay.clear(); // Removes all listeners
-    super.dispose();
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    setState(() {
-      _paymentId = response.paymentId;
-    });
-    print('THIS IS DOC ID ');
-    print(widget.docid);
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.success,
-      animType: AnimType.bottomSlide,
-      title: 'Payment Success',
-      desc: 'Payment ID: ${response.paymentId}',
-      btnOkOnPress: () {},
-    ).show();
-    BlocProvider.of<BookBloc>(context).add(UpdateBookingEvent(
-      bookingId: widget.docid,
-      updatedData: {'payment': _paymentId},
-    ));
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.error,
-      animType: AnimType.bottomSlide,
-      title: 'Payment failed ',
-      // desc: 'Payment Eroor: ${response.code}-${response.message}',
-      btnCancelOnPress: () {},
-    ).show();
-    //Text('Payment Error: ${response.code} - ${response.message}')),
-  }
-
-  // void _handleExternalWallet(ExternalWalletResponse response) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text('External Wallet: ${response.walletName}')),
-  //   );
-  // }
-
-  void _openCheckout() {
-    var options = {
-      'key': 'rzp_test_fAcHyoe9ZluWWI',
-      'amount': (int.parse(widget.price.replaceAll(',', '')) - 100) * 100,
-      'name': widget.hotelname,
-      'description': 'Booking Payment',
-      'prefill': {
-        'contact': widget.contact,
-        'email': 'dhanushpb59@gmail.com',
-      },
-      'external': {
-        'wallets': ['paytm']
-      }
-    };
-
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> validRoomImages = widget.roomImages
-        .where((image) => image != null)
-        .map<String>((image) => image as String)
-        .toList();
-
     List<String> validTourImages =
         widget.TourImages.where((image) => image != null)
             .map<String>((image) => image as String)
@@ -167,20 +76,87 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                     ),
                     height: 150,
                     alignment: Alignment.center,
-                    child: Text(
-                      'Your Booking is Confirmed',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                        color: Appcolor.white,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.hotelname,
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w800,
+                            color: Appcolor.white,
+                          ),
+                        ),
+                        Text(
+                          widget.location,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Appcolor.white,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                openMap(
+                                    hotelname: widget.hotelname,
+                                    loc: widget.location,
+                                    address: widget.adreess);
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text('Direction'),
+                                ],
+                              ),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                makeCall(widget.contact);
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text('Call'),
+                                ],
+                              ),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                // Handle message
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.message_outlined,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text('Message'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 20),
                         Column(
                           children: [
@@ -202,176 +178,9 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                             const SizedBox(height: 5),
                             Text(widget.adreess),
                             const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  height: 130,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.44,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: validRoomImages.isNotEmpty
-                                        ? Image.network(
-                                            validRoomImages[0],
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            child: Container(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 130,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.44,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: validRoomImages.isNotEmpty
-                                        ? Image.network(
-                                            validRoomImages[1],
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            child: Container(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Get ₹100 off when you pay online!',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Appcolor.green,
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Text(
-                                        '₹ ${widget.price}',
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 8,
-                                        left: 0,
-                                        child: Container(
-                                          height: 2,
-                                          color: const Color.fromARGB(
-                                                  154, 70, 157, 228)
-                                              .withOpacity(0.5),
-                                          width: 90, // Adjust width as needed
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            _openCheckout();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color.fromARGB(99, 146, 137, 137)
-                                      .withOpacity(0.5),
-                                  spreadRadius: 0.01,
-                                  blurRadius: 1,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                              color: Appcolor.red,
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            height: 40,
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '₹ ${(int.parse(widget.price.replaceAll(',', '')) - 100)}',
-                                  style: TextStyle(
-                                    color: Appcolor.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  'Pay Now',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
                         const SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _buildActionItem(
-                              icon: FontAwesomeIcons.mapMarkerAlt,
-                              label: 'Directions',
-                              onTap: () {
-                                openMap(
-                                    hotelname: widget.hotelname,
-                                    loc: widget.location,
-                                    address: widget.adreess);
-                              },
-                            ),
-                            _buildActionItem(
-                              icon: FontAwesomeIcons.phone,
-                              label: 'Call',
-                              onTap: () {
-                                makeCall(widget.contact);
-                                // Handle call action
-                              },
-                            ),
-                            _buildActionItem(
-                              icon: FontAwesomeIcons.comment,
-                              label: 'Message',
-                              onTap: () {
-                                // Handle message action
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 40),
                         const Text(
                           'Must See Sights',
                           style: TextStyle(
@@ -404,10 +213,10 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                       Widget child,
                                       ImageChunkEvent? loadingProgress) {
                                     if (loadingProgress == null) {
-// Image loaded successfully
+                                      // Image loaded successfully
                                       return child;
                                     } else {
-// Image still loading, display shimmer
+                                      // Image still loading, display shimmer
                                       return Shimmer.fromColors(
                                         baseColor: Colors.grey[300]!,
                                         highlightColor: Colors.grey[100]!,
@@ -423,7 +232,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                   errorBuilder: (BuildContext context,
                                       Object exception,
                                       StackTrace? stackTrace) {
-// Error occurred while loading image, display shimmer
+                                    // Error occurred while loading image, display shimmer
                                     return Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
                                       highlightColor: Colors.grey[100]!,
@@ -597,34 +406,6 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                 ),
               ),
             ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionItem({
-    required IconData icon,
-    required String label,
-    required void Function() onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(
-            icon,
-            color: Colors.black,
-            size: 27,
-          ),
-          const SizedBox(height: 5),
-          Text(
-            label,
-            style: TextStyle(
-              color: Appcolor.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
         ],
       ),
     );

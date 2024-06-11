@@ -7,8 +7,7 @@ Future<void> openMap({String? hotelname, String? loc, String? address}) async {
   final String hotelName = hotelname ?? '';
   final String location = loc ?? '';
   final String sinceYear = address ?? '';
-  final String query = Uri.encodeComponent(
-      '$hotelName??$location,$location??$sinceYear, $sinceYear??$hotelName');
+  final String query = Uri.encodeComponent('$hotelName,$location,$sinceYear');
   final String googleMapsUrl =
       'https://www.google.com/maps/dir/?api=1&destination=$query&travelmode=driving';
 

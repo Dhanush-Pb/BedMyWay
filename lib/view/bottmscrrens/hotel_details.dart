@@ -1,12 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/repositories/components/bottm_sheet.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
-import 'package:bedmyway/view/bottmscrrens/booking_pade.dart';
+import 'package:bedmyway/view/bottmscrrens/more_info.dart';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -87,7 +87,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                               baseColor: Colors.grey[300]!,
                                               highlightColor: Colors.grey[100]!,
                                               child: Container(
-                                                color: Colors.white,
+                                                color: Appcolor.white,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
@@ -141,8 +141,9 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                     _isFavorite
                                         ? Icons.favorite
                                         : Icons.favorite_border,
-                                    color:
-                                        _isFavorite ? Colors.red : Colors.white,
+                                    color: _isFavorite
+                                        ? Appcolor.red2
+                                        : Appcolor.white,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -169,8 +170,8 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                   width: _currentIndex == index ? 19.0 : 8.0,
                                   decoration: BoxDecoration(
                                     color: _currentIndex == index
-                                        ? const Color.fromARGB(255, 255, 5, 5)
-                                        : Colors.grey,
+                                        ? Appcolor.red2
+                                        : Appcolor.grey,
                                     borderRadius: BorderRadius.circular(5.0),
                                   ),
                                 );
@@ -221,9 +222,9 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                   const SizedBox(
                                     width: 2,
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.star_purple500_outlined,
-                                    color: Color.fromARGB(255, 236, 213, 4),
+                                    color: Appcolor.ratingcolor,
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -248,9 +249,9 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                         widget.hotel['sinceYear'] ?? '',
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14.0,
-                          color: Colors.grey,
+                          color: Appcolor.grey,
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -340,12 +341,39 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                         height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Food: ',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          Row(
+                            children: [
+                              const Text(
+                                'Food: ',
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              Text(widget.hotel['foodoption']),
+                            ],
                           ),
-                          Text(widget.hotel['foodoption'])
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(FadePageRoute(
+                                  page: MoreInfoPage(
+                                touristdetails: widget.hotel['touristlocaton'],
+                                adreess: widget.hotel['sinceYear'],
+                                TourImages: widget.hotel['tourimage'],
+                                contact: widget.hotel['contact'],
+                                hotelname: widget.hotel['name'],
+                                roomImages: widget.hotel['images'],
+                                location: widget.hotel['locaton'],
+                                messageDirection: '',
+                              )));
+                            },
+                            child: Text(
+                              'Moreinifo',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Appcolor.blue),
+                            ),
+                          )
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -375,7 +403,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                     filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
                     child: Container(
                       height: 300,
-                      color: Colors.black.withOpacity(0.5),
+                      color: Appcolor.black.withOpacity(0.5),
                     ),
                   ),
                 ),
@@ -409,7 +437,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                       baseColor: Colors.grey[300]!,
                                       highlightColor: Colors.grey[100]!,
                                       child: Container(
-                                        color: Colors.white,
+                                        color: Appcolor.black,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 160,
@@ -448,7 +476,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                           right: 20,
                           child: IconButton(
                             highlightColor: Appcolor.red,
-                            icon: const Icon(Icons.close, color: Colors.white),
+                            icon: Icon(Icons.close, color: Appcolor.white),
                             onPressed: () {
                               setState(() {
                                 _showimagepriviw = false;
@@ -476,7 +504,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                         decoration: BoxDecoration(
                           color: _currentindex2 == index
                               ? Appcolor.red
-                              : Color.fromARGB(255, 194, 194, 194),
+                              : Appcolor.grey,
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                       );
@@ -510,18 +538,14 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
             hotelname: widget.hotel['name'],
             roomImages: widget.hotel['images'],
             location: widget.hotel['locaton'],
+            room: widget.hotel['Room'],
+            hotelDocId: widget.hotel['id'],
+            refund: widget.hotel['Refundoption'],
           );
 
           // Navigator.of(context).push(FadePageRoute(
           //     page: Bookingsectionpage(
-          //   touristdetails: widget.hotel['touristlocaton'],
-          //   adreess: widget.hotel['sinceYear'],
-          //   TourImages: widget.hotel['tourimage'],
-          //   price: widget.hotel['price'],
-          //   contact: widget.hotel['contact'],
-          //   hotelname: widget.hotel['name'],
-          //   roomImages: widget.hotel['images'],
-          //   location: widget.hotel['locaton'],
+
           // )));
         },
         child: Container(
@@ -529,10 +553,10 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
           height: 70,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 244, 242, 242),
+            color: Appcolor.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Appcolor.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 1,
                 offset: const Offset(0, 3),
@@ -561,7 +585,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                         left: 0,
                         child: Container(
                           height: 2,
-                          color: const Color.fromARGB(154, 70, 157, 228),
+                          color: Appcolor.blue2,
                           width: 90, // Adjust width as needed
                         ),
                       ),

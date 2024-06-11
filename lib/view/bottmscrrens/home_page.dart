@@ -3,7 +3,9 @@
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
+
 import 'package:bedmyway/repositories/colors/colors.dart';
+import 'package:bedmyway/repositories/components/flight_tain.dart';
 import 'package:bedmyway/repositories/custom/alertdiloge.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
@@ -40,7 +42,7 @@ class _HomepageState extends State<Homepage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(35.0),
         child: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Appcolor.transpirent,
           elevation: 0,
           title: const Row(
             children: [],
@@ -101,7 +103,7 @@ class _HomepageState extends State<Homepage> {
                                         period:
                                             const Duration(milliseconds: 1000),
                                         direction: ShimmerDirection.ltr,
-                                        child: Container(color: Colors.white),
+                                        child: Container(color: Appcolor.white),
                                       );
                                     }
                                   },
@@ -116,7 +118,7 @@ class _HomepageState extends State<Homepage> {
                                               1000), // Adjust the animation duration
                                       direction: ShimmerDirection
                                           .ltr, // Set the direction of the animation
-                                      child: Container(color: Colors.white),
+                                      child: Container(color: Appcolor.white),
                                     );
                                   },
                                 )
@@ -128,7 +130,7 @@ class _HomepageState extends State<Homepage> {
                                           1000), // Adjust the animation duration
                                   direction: ShimmerDirection
                                       .ltr, // Set the direction of the animation
-                                  child: Container(color: Colors.white),
+                                  child: Container(color: Appcolor.white),
                                 ),
                         ),
                       ),
@@ -140,7 +142,7 @@ class _HomepageState extends State<Homepage> {
                       child: Container(
                         height: 55,
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Appcolor.black.withOpacity(0.5),
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10),
@@ -153,8 +155,8 @@ class _HomepageState extends State<Homepage> {
                           children: [
                             Text(
                               hotel['name'] ?? 'Hotel Name',
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style: TextStyle(
+                                color: Appcolor.white,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -165,16 +167,16 @@ class _HomepageState extends State<Homepage> {
                               children: [
                                 Text(
                                   hotel['locaton'] ?? 'Location',
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Appcolor.white,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 Text(
                                   'Price: ₹${hotel['price'] ?? 'N/A'}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: Appcolor.white,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -216,15 +218,15 @@ class _HomepageState extends State<Homepage> {
                                       Widget child,
                                       ImageChunkEvent? loadingProgress) {
                                     if (loadingProgress == null) {
-                                      // Image loaded successfully
+                                      // Image successfully
                                       return child;
                                     } else {
-                                      // Image still loading, display shimmer
+                                      //  display shimmer
                                       return Shimmer.fromColors(
                                         baseColor: Colors.grey[300]!,
                                         highlightColor: Colors.grey[100]!,
                                         child: Container(
-                                          color: Colors.white,
+                                          color: Appcolor.white,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: 200,
@@ -235,12 +237,12 @@ class _HomepageState extends State<Homepage> {
                                   errorBuilder: (BuildContext context,
                                       Object exception,
                                       StackTrace? stackTrace) {
-                                    // Error occurred while loading image, display shimmer
+                                    //, display shimmer
                                     return Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
                                       highlightColor: Colors.grey[100]!,
                                       child: Container(
-                                        color: Colors.white,
+                                        color: Appcolor.white,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 200,
@@ -249,13 +251,10 @@ class _HomepageState extends State<Homepage> {
                                   },
                                 )
                               : Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 74, 72, 72),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 67, 67, 67),
+                                  baseColor: Appcolor.shimer1,
+                                  highlightColor: Appcolor.shimer1,
                                   child: Container(
-                                    color:
-                                        const Color.fromARGB(255, 62, 62, 62),
+                                    color: Appcolor.shimer1,
                                     width: double.infinity,
                                     height: 200,
                                   ),
@@ -432,7 +431,7 @@ class _HomepageState extends State<Homepage> {
                                     height: 200,
                                     aspectRatio: 16 / 9,
                                     autoPlay: true,
-                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    autoPlayCurve: Curves.easeInOutSine,
                                     enableInfiniteScroll: true,
                                     autoPlayAnimationDuration:
                                         const Duration(milliseconds: 600),
@@ -494,17 +493,13 @@ class _HomepageState extends State<Homepage> {
                           }),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  TrainPlane(),
                 ],
               ),
             );
           }
-          return // Widget to build shimmer loading list with shimmer effect for each item
-
-              ListView.builder(
-            itemCount: 30, // Number of shimmer items
+          return ListView.builder(
+            itemCount: 25, // Number of shimmer items
             itemBuilder: (context, index) {
               return Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
@@ -513,10 +508,10 @@ class _HomepageState extends State<Homepage> {
                   leading: Container(
                     height: 50,
                     width: 60,
-                    color: Colors.grey,
+                    color: Appcolor.grey,
                   ),
                   title: Container(
-                    color: Colors.grey,
+                    color: Appcolor.grey,
                     height: 10,
                   ),
                 ),
@@ -525,16 +520,17 @@ class _HomepageState extends State<Homepage> {
           );
         },
       ),
+
       //!Drawer
       drawer: Drawer(
         child: Container(
-          color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9),
+          color: Appcolor.black.withOpacity(0.9),
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(0, 0, 0, 0),
+                decoration: BoxDecoration(
+                  color: Appcolor.transpirent,
                 ),
                 child: Column(
                   children: [
@@ -551,15 +547,15 @@ class _HomepageState extends State<Homepage> {
                       currentuserr?.displayName ??
                           currentuserr?.phoneNumber ??
                           '',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Appcolor.white,
                         fontSize: 22,
                       ),
                     ),
                     Text(
                       currentuserr?.email ?? '',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Appcolor.white,
                         fontSize: 17,
                       ),
                     ),

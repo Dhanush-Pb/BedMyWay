@@ -1,10 +1,19 @@
+// ignore_for_file: unused_field
+
+import 'dart:developer';
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/booking_pade.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ReusableBottomSheet extends StatefulWidget {
+  final String refund;
   final double height;
   final String pricePerDay;
   final String touristdetails;
@@ -14,6 +23,8 @@ class ReusableBottomSheet extends StatefulWidget {
   final String contact;
   final List<dynamic> roomImages;
   final String location;
+  final String room;
+  final String hotelDocId; // Added hotelDocId parameter
 
   const ReusableBottomSheet({
     Key? key,
@@ -26,6 +37,9 @@ class ReusableBottomSheet extends StatefulWidget {
     required this.contact,
     required this.roomImages,
     required this.location,
+    required this.room,
+    required this.hotelDocId,
+    required this.refund, // Added hotelDocId parameter
   }) : super(key: key);
 
   @override
@@ -35,6 +49,7 @@ class ReusableBottomSheet extends StatefulWidget {
 class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
+  String? _docid;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +99,6 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
               'Selected Dates',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-
-            // Inside your Widget build method or wherever you are displaying the date range
             Text(
               '${DateFormat('yyyy MMMM d').format(selectedStartDate!)}  to  ${DateFormat('yyyy MMMM d').format(selectedEndDate!)}',
               style: TextStyle(
@@ -93,7 +106,6 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                   color: Appcolor.blue,
                   fontWeight: FontWeight.w600),
             ),
-
             const SizedBox(height: 10),
             Text(
               'Total Days: $totalDays',
@@ -121,32 +133,90 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
               ],
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  FadePageRoute(
-                    page: Bookingsectionpage(
-                      TourImages:
-                          widget.TourImages, // Use widget to access properties
-                      adreess: widget.adreess,
-                      touristdetails: widget.touristdetails,
-                      contact: widget.contact,
-                      price: price,
-                      hotelname: widget.hotelname,
-                      roomImages: widget.roomImages,
-                      location: widget.location,
+            BlocConsumer<BookBloc, BookState>(
+              listener: (context, state) {
+                if (state is BookSuccess) {
+                  log(state.docid);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: AwesomeSnackbarContent(
+                        title: 'Booking Successful!',
+                        message:
+                            'Your booking has been confirmed. Enjoy your stay!',
+                        contentType: ContentType.success,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      elevation: 0, // Elevation
+
+                      duration:
+                          Duration(seconds: 4), // Duration to show the snackbar
+                    ),
+                  );
+                  Navigator.of(context).pushReplacement(
+                    FadePageRoute(
+                      page: Bookingsectionpage(
+                        TourImages: widget.TourImages,
+                        adreess: widget.adreess,
+                        touristdetails: widget.touristdetails,
+                        contact: widget.contact,
+                        price: price,
+                        hotelname: widget.hotelname,
+                        roomImages: widget.roomImages,
+                        location: widget.location,
+                        docid: state.docid,
+                      ),
+                    ),
+                  );
+                  SnackBar;
+                } else if (state is BookError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Booking failed: ${state.error}')),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is BookLoading) {
+                  return CircularProgressIndicator();
+                }
+
+                return ElevatedButton(
+                  onPressed: () {
+                    final DateTime bookTime = DateTime.now();
+                    final String formattedDate =
+                        DateFormat('yyyy-MMMM-dd – hh:mm a').format(bookTime);
+                    final bookingData = {
+                      'bookeddate': formattedDate,
+                      'checkInDate': Timestamp.fromDate(selectedStartDate!),
+                      'checkOutDate': Timestamp.fromDate(selectedEndDate!),
+                      'Hotalnmae': widget.hotelname,
+                      'Roomtype': widget.room,
+                      'payment': 'Pay at Hotel',
+                      'TotalAmount': price,
+                      'Location': widget.location,
+                      'Rating': '',
+                      'contact': widget.contact,
+                      'staus': 'Booked',
+                      'Cancelreson': '',
+                      'canceltime': '',
+                      'Room': widget.room,
+                      'Refunnd': widget.refund
+                    };
+                    if (state is BookLoading) {}
+
+                    context.read<BookBloc>().add(BookHotelEvent(
+                        hotelDocId: widget.hotelDocId,
+                        bookingData: bookingData));
+                  },
+                  child: Text(
+                    'Book Now',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                      color: Appcolor.red2,
                     ),
                   ),
                 );
               },
-              child: Text(
-                'Book Now',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                  color: Appcolor.red2,
-                ),
-              ),
             ),
           ] else ...[
             // Display a default image when no dates are selected
@@ -187,6 +257,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
 void showReusableBottomSheet({
   required BuildContext context,
   double height = 300.0,
+  required String room,
   required String pricePerDay,
   required String touristdetails,
   required String adreess,
@@ -195,12 +266,16 @@ void showReusableBottomSheet({
   required String contact,
   required List<dynamic> roomImages,
   required String location,
+  required String hotelDocId,
+  required String refund,
+  // Added hotelDocId parameter
 }) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (context) => ReusableBottomSheet(
+      room: room,
       height: height,
       pricePerDay: pricePerDay,
       touristdetails: touristdetails,
@@ -210,6 +285,8 @@ void showReusableBottomSheet({
       contact: contact,
       roomImages: roomImages,
       location: location,
+      hotelDocId: hotelDocId,
+      refund: refund,
     ),
   );
 }

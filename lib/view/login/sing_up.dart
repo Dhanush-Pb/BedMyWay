@@ -161,13 +161,13 @@ class SignupPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => Passwordreset()));
-                          },
-                          child: const Text('Forget Password ? '),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     // Navigator.of(context).push(MaterialPageRoute(
+                        //     //     builder: (context) => Passwordreset()));
+                        //   },
+                        //   child: const Text('Forget Password ? '),
+                        // ),
                         const SizedBox(height: 15),
                         GestureDetector(
                           onTap: () {
