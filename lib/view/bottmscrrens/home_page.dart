@@ -10,6 +10,7 @@ import 'package:bedmyway/repositories/custom/alertdiloge.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:bedmyway/view/bottmscrrens/search_page.dart';
+import 'package:bedmyway/view/bottmscrrens/story_view.dart';
 import 'package:bedmyway/view/login/login_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -385,13 +386,34 @@ class _HomepageState extends State<Homepage> {
                                 CircleAvatar(
                                   backgroundImage: NetworkImage(tourimage.last),
                                   radius: 43,
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundImage: tourimage.isNotEmpty
-                                        ? NetworkImage(tourimage.first)
-                                        : const AssetImage(
-                                                'assets/images/default_hotel_image.png')
-                                            as ImageProvider,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(FadePageRoute(
+                                          page: AlternateHotelImagePage(
+                                        coverImages: hotel['coverimage'],
+                                        pathImages: hotel['pathimage'],
+                                        currentIndex: index,
+                                      )));
+                                    },
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(FadePageRoute(
+                                                page: AlternateHotelImagePage(
+                                          coverImages: hotel['coverimage'],
+                                          pathImages: hotel['pathimage'],
+                                          currentIndex: index,
+                                        )));
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: tourimage.isNotEmpty
+                                            ? NetworkImage(tourimage.first)
+                                            : const AssetImage(
+                                                    'assets/images/default_hotel_image.png')
+                                                as ImageProvider,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 5),
