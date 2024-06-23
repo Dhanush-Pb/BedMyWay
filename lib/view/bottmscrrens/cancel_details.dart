@@ -1,3 +1,4 @@
+// import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bedmyway/repositories/components/mytime_line.dart';
@@ -27,8 +28,9 @@ class CancelDetailsPage extends StatelessWidget {
       Clipboard.setData(ClipboardData(text: text));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            duration: const Duration(seconds: 1),
-            content: Text('$label copied to clipboard')),
+          duration: const Duration(seconds: 1),
+          content: Text('$label copied to clipboard'),
+        ),
       );
     }
 

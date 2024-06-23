@@ -9,7 +9,9 @@ class BookLoading extends BookState {}
 
 class BookSuccess extends BookState {
   final String docid;
-  BookSuccess(this.docid);
+  BookSuccess(
+    this.docid,
+  );
 }
 
 class BookError extends BookState {

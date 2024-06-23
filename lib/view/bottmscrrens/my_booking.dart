@@ -156,7 +156,7 @@ class _MybookingState extends State<Mybooking> {
                       bookeddatte: booking['bookeddate'].toString(),
                       cancelddate: booking['canceltime'].toString(),
                       cancelresone: booking['Cancelreson'],
-                      bookingid: booking['hotelDocId'],
+                      bookingid: booking['hotelDocId'] ?? '',
                       payment: paymentMethod,
                     ),
                   ));

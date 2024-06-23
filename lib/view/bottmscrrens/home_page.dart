@@ -12,6 +12,7 @@ import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:bedmyway/view/bottmscrrens/search_page.dart';
 import 'package:bedmyway/view/bottmscrrens/story_view.dart';
 import 'package:bedmyway/view/login/login_page.dart';
+import 'package:bedmyway/view/privacypolocy/privacy_policy.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,8 @@ class _HomepageState extends State<Homepage> {
                                       return child;
                                     } else {
                                       return Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
+                                        baseColor: Appcolor.shimmercolor1,
+                                        highlightColor: Appcolor.Shimmercolor2,
                                         period:
                                             const Duration(milliseconds: 1000),
                                         direction: ShimmerDirection.ltr,
@@ -112,8 +113,8 @@ class _HomepageState extends State<Homepage> {
                                       Object exception,
                                       StackTrace? stackTrace) {
                                     return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor: Appcolor.shimmercolor1,
+                                      highlightColor: Appcolor.Shimmercolor2,
                                       period: const Duration(
                                           milliseconds:
                                               1000), // Adjust the animation duration
@@ -124,8 +125,8 @@ class _HomepageState extends State<Homepage> {
                                   },
                                 )
                               : Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
+                                  baseColor: Appcolor.shimmercolor1,
+                                  highlightColor: Appcolor.Shimmercolor2,
                                   period: const Duration(
                                       milliseconds:
                                           1000), // Adjust the animation duration
@@ -224,8 +225,8 @@ class _HomepageState extends State<Homepage> {
                                     } else {
                                       //  display shimmer
                                       return Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
+                                        baseColor: Appcolor.shimmercolor1,
+                                        highlightColor: Appcolor.Shimmercolor2,
                                         child: Container(
                                           color: Appcolor.white,
                                           width:
@@ -240,8 +241,8 @@ class _HomepageState extends State<Homepage> {
                                       StackTrace? stackTrace) {
                                     //, display shimmer
                                     return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor: Appcolor.shimmercolor1,
+                                      highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
                                         color: Appcolor.white,
                                         width:
@@ -515,7 +516,7 @@ class _HomepageState extends State<Homepage> {
                           }),
                     ),
                   ),
-                  TrainPlane(),
+                  const TrainPlane(),
                 ],
               ),
             );
@@ -524,8 +525,8 @@ class _HomepageState extends State<Homepage> {
             itemCount: 25, // Number of shimmer items
             itemBuilder: (context, index) {
               return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Appcolor.shimmercolor1,
+                highlightColor: Appcolor.Shimmercolor2,
                 child: ListTile(
                   leading: Container(
                     height: 50,
@@ -623,7 +624,8 @@ class _HomepageState extends State<Homepage> {
                   style: TextStyle(color: Appcolor.white),
                 ),
                 onTap: () {
-                  // Handle privacy policy
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => PrivacyPolicy()));
                 },
               ),
               ListTile(

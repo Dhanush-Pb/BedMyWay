@@ -1,4 +1,6 @@
+import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
+
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
@@ -19,6 +21,7 @@ class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
     BlocProvider.of<HoteldataBloc>(context).add(FetchdataEvent());
+
     eventinzilizing();
     const Onboarding1();
     super.initState();
@@ -66,5 +69,6 @@ class _SplashscreenState extends State<Splashscreen> {
 
   void eventinzilizing() {
     context.read<AuthBloc>().add(checkloginevern());
+    context.read<RatingBloc>().add(FetchRatingdataEvent());
   }
 }

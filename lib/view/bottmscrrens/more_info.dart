@@ -218,8 +218,8 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                     } else {
                                       // Image still loading, display shimmer
                                       return Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
+                                        baseColor: Appcolor.shimmercolor1,
+                                        highlightColor: Appcolor.Shimmercolor2,
                                         child: Container(
                                           color: Colors.white,
                                           width:
@@ -234,8 +234,8 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                       StackTrace? stackTrace) {
                                     // Error occurred while loading image, display shimmer
                                     return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor: Appcolor.shimmercolor1,
+                                      highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
                                         color: Colors.white,
                                         width:
@@ -313,8 +313,9 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                           return child;
                                         } else {
                                           return Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
+                                            baseColor: Appcolor.shimmercolor1!!,
+                                            highlightColor:
+                                                Appcolor.Shimmercolor2!,
                                             child: Container(
                                               color: Colors.white,
                                               width: MediaQuery.of(context)
@@ -329,8 +330,9 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                           Object exception,
                                           StackTrace? stackTrace) {
                                         return Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
+                                          baseColor: Appcolor.shimmercolor1!!,
+                                          highlightColor:
+                                              Appcolor.Shimmercolor2!,
                                           child: Container(
                                             color: Appcolor.white,
                                             width: MediaQuery.of(context)

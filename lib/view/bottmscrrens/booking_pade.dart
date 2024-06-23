@@ -217,8 +217,9 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                             fit: BoxFit.cover,
                                           )
                                         : Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
+                                            baseColor: Appcolor.shimmercolor1,
+                                            highlightColor:
+                                                Appcolor.Shimmercolor2,
                                             child: Container(
                                               color: Colors.white,
                                             ),
@@ -237,8 +238,9 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                             fit: BoxFit.cover,
                                           )
                                         : Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
+                                            baseColor: Appcolor.shimmercolor1,
+                                            highlightColor:
+                                                Appcolor.Shimmercolor2,
                                             child: Container(
                                               color: Colors.white,
                                             ),
@@ -409,8 +411,8 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                     } else {
 // Image still loading, display shimmer
                                       return Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
+                                        baseColor: Appcolor.shimmercolor1,
+                                        highlightColor: Appcolor.Shimmercolor2,
                                         child: Container(
                                           color: Colors.white,
                                           width:
@@ -425,8 +427,8 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                       StackTrace? stackTrace) {
 // Error occurred while loading image, display shimmer
                                     return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor: Appcolor.shimmercolor1,
+                                      highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
                                         color: Colors.white,
                                         width:
@@ -504,8 +506,9 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                           return child;
                                         } else {
                                           return Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
+                                            baseColor: Appcolor.shimmercolor1,
+                                            highlightColor:
+                                                Appcolor.Shimmercolor2,
                                             child: Container(
                                               color: Colors.white,
                                               width: MediaQuery.of(context)
@@ -520,8 +523,9 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                           Object exception,
                                           StackTrace? stackTrace) {
                                         return Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
+                                          baseColor: Appcolor.shimmercolor1,
+                                          highlightColor:
+                                              Appcolor.Shimmercolor2,
                                           child: Container(
                                             color: Appcolor.white,
                                             width: MediaQuery.of(context)

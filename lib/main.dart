@@ -1,3 +1,4 @@
+import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BookBloc(),
+        ),
+        BlocProvider(
+          create: (context) => RatingBloc(),
         ),
       ],
       child: MaterialApp(

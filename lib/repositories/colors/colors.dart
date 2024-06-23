@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -16,4 +18,6 @@ class Appcolor {
   static Color grey = Colors.grey;
   static Color shimer1 = const Color.fromARGB(255, 74, 72, 72);
   static Color bottmicon = Color.fromARGB(195, 230, 12, 12);
+  static Color shimmercolor1 = Color.fromARGB(255, 224, 223, 223);
+  static Color Shimmercolor2 = const Color.fromRGBO(245, 245, 245, 1);
 }

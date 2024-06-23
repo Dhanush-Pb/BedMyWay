@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +15,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   BookBloc() : super(BookInitial()) {
     on<BookEvent>((event, emit) async {
       if (event is BookHotelEvent) {
-        await _mapBookHotelEventToState(event, emit);
+        await _mapBookHotelEventToState(event.bookingData, emit);
       } else if (event is UpdateBookingEvent) {
         await _mapUpdateBookingEventToState(event, emit);
       } else if (event is DeleteBookingEvent) {
@@ -36,20 +38,21 @@ class BookBloc extends Bloc<BookEvent, BookState> {
   }
 
   Future<void> _mapBookHotelEventToState(
-      BookHotelEvent event, Emitter<BookState> emit) async {
-    emit(BookLoading());
+      Map<String, dynamic> bookingData, Emitter<BookState> emit) async {
     try {
-      String currentUserId = await _getUserId();
-      DocumentReference docRef = await _firestore
-          .collection('booking')
-          .doc(currentUserId)
-          .collection('bookedhotels')
-          .add({
-        'hotelDocId': event.hotelDocId,
-        ...event.bookingData,
-      });
+      emit(BookLoading());
+      final String userId = await _getUserId();
+      log('Adding hotel booking data for user: $userId');
 
-      emit(BookSuccess(docRef.id)); // Emit the document ID
+      final reference = _firestore
+          .collection('userSide')
+          .doc(userId)
+          .collection('bookedhotels');
+
+      final docRef = await reference.add(bookingData);
+      log('New booking document ID: ${docRef.id}');
+
+      emit(BookSuccess(docRef.id));
     } catch (e) {
       emit(BookError(e.toString()));
     }
@@ -62,7 +65,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       String currentUserId = await _getUserId();
 
       await _firestore
-          .collection('booking')
+          .collection('userSide')
           .doc(currentUserId)
           .collection('bookedhotels')
           .doc(event.bookingId)
@@ -81,7 +84,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       String currentUserId = await _getUserId();
 
       await _firestore
-          .collection('booking')
+          .collection('userSide')
           .doc(currentUserId)
           .collection('bookedhotels')
           .doc(event.bookingId)
@@ -101,7 +104,7 @@ class BookBloc extends Bloc<BookEvent, BookState> {
 
       if (event.bookingId == null || event.bookingId!.isEmpty) {
         QuerySnapshot bookingSnapshot = await _firestore
-            .collection('booking')
+            .collection('userSide')
             .doc(currentUserId)
             .collection('bookedhotels')
             .get();
@@ -114,14 +117,14 @@ class BookBloc extends Bloc<BookEvent, BookState> {
         Map<String, dynamic> bookings = {};
         for (var doc in bookingSnapshot.docs) {
           Map<String, dynamic> bookingData = doc.data() as Map<String, dynamic>;
-          bookingData['id'] = doc.id; // Add the document ID to the booking data
+          bookingData['id'] = doc.id;
           bookings[doc.id] = bookingData;
         }
 
         emit(BookingFetched(bookings));
       } else {
         DocumentSnapshot bookingSnapshot = await _firestore
-            .collection('booking')
+            .collection('userSide')
             .doc(currentUserId)
             .collection('bookedhotels')
             .doc(event.bookingId)
@@ -142,53 +145,4 @@ class BookBloc extends Bloc<BookEvent, BookState> {
       emit(BookError(e.toString()));
     }
   }
-
-  // Future<void> _mapFetchBookingEventToState(
-  //     FetchBookingEvent event, Emitter<BookState> emit) async {
-  //   emit(BookLoading());
-  //   try {
-  //     String currentUserId = await _getUserId();
-
-  //     if (event.bookingId == null || event.bookingId!.isEmpty) {
-  //       QuerySnapshot bookingSnapshot = await _firestore
-  //           .collection('booking')
-  //           .doc(currentUserId)
-  //           .collection('bookedhotels')
-  //           .get();
-
-  //       if (bookingSnapshot.docs.isEmpty) {
-  //         emit(BookError('No bookings found'));
-  //         return;
-  //       }
-
-  //       Map<String, dynamic> bookings = {};
-  //       for (var doc in bookingSnapshot.docs) {
-  //         bookings[doc.id] = doc.data();
-  //       }
-
-  //       emit(BookingFetched(bookings));
-  //     } else {
-  //       DocumentSnapshot bookingSnapshot = await _firestore
-  //           .collection('booking')
-  //           .doc(currentUserId)
-  //           .collection('bookedhotels')
-  //           .doc(event.bookingId)
-  //           .get();
-
-  //       if (!bookingSnapshot.exists) {
-  //         emit(BookError('Booking not found'));
-  //         return;
-  //       }
-
-  //       Map<String, dynamic> bookingData =
-  //           bookingSnapshot.data() as Map<String, dynamic>;
-
-  //       data['id'] = doc.id; // Add the document ID to the data
-
-  //       emit(BookingFetched({event.bookingId!: bookingData}));
-  //     }
-  //   } catch (e) {
-  //     emit(BookError(e.toString()));
-  //   }
-  // }
 }

@@ -3,6 +3,8 @@
 import 'dart:ui';
 
 import 'package:bedmyway/Model/goolgle_map.dart';
+import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
+import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/components/bottm_sheet.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/more_info.dart';
@@ -10,6 +12,7 @@ import 'package:bedmyway/view/bottmscrrens/more_info.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HotelDetailPage extends StatefulWidget {
@@ -84,8 +87,9 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                             return child;
                                           } else {
                                             return Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[100]!,
+                                              baseColor: Appcolor.shimmercolor1,
+                                              highlightColor:
+                                                  Appcolor.Shimmercolor2,
                                               child: Container(
                                                 color: Appcolor.white,
                                                 width: MediaQuery.of(context)
@@ -229,11 +233,63 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Text(
-                                    '3/5',
-                                    style: TextStyle(
-                                      color: Appcolor.black,
-                                    ),
+                                  BlocConsumer<RatingBloc, RatingState>(
+                                    listener: (context, state) {},
+                                    builder: (context, state) {
+                                      if (state is HotelRatingdataLoading) {
+                                        return const CircularProgressIndicator();
+                                      } else if (state is Ratingdatafetched) {
+                                        // Find all hotels with the matching name
+                                        final matchingHotels =
+                                            state.hotels.where(
+                                          (hotel) =>
+                                              hotel['Hotalnmae'] ==
+                                              widget.hotel['name'],
+                                        );
+
+                                        if (matchingHotels.isNotEmpty) {
+                                          // Calculate the total rating
+                                          final totalRating = matchingHotels
+                                              .fold(0.0, (sum, hotel) {
+                                            final rating = hotel['Rating'];
+                                            return sum +
+                                                (rating is double
+                                                    ? rating
+                                                    : double.tryParse(rating) ??
+                                                        0.0);
+                                          });
+
+                                          // Calculate the average rating
+                                          final averageRating = totalRating /
+                                              matchingHotels.length;
+
+                                          return Column(
+                                            children: [
+                                              Text(
+                                                '${averageRating.toStringAsFixed(1)}/5',
+                                                style: TextStyle(
+                                                  color: Appcolor.black,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        } else {
+                                          return Text(
+                                            'No matching hotels foun',
+                                            style: TextStyle(
+                                              color: Appcolor.black,
+                                            ),
+                                          );
+                                        }
+                                      }
+                                      // Default case when the state is neither loading nor fetched
+                                      return Text(
+                                        '3.5',
+                                        style: TextStyle(
+                                          color: Appcolor.black,
+                                        ),
+                                      );
+                                    },
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -434,8 +490,8 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                     return child;
                                   } else {
                                     return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor: Appcolor.shimmercolor1,
+                                      highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
                                         color: Appcolor.black,
                                         width:
@@ -448,8 +504,8 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                 errorBuilder: (BuildContext context,
                                     Object exception, StackTrace? stackTrace) {
                                   return Shimmer.fromColors(
-                                    baseColor: Colors.grey[300]!,
-                                    highlightColor: Colors.grey[100]!,
+                                    baseColor: Appcolor.shimmercolor1,
+                                    highlightColor: Appcolor.Shimmercolor2,
                                     child: Container(
                                       color: Appcolor.white,
                                       width: MediaQuery.of(context).size.width,
