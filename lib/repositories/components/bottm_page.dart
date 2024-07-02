@@ -46,7 +46,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
           activeColor: Appcolor.white,
           iconSize: 24,
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 500),
           tabBackgroundColor: Appcolor.bottmicon,
           color: Appcolor.black,
           tabs: const [

@@ -66,7 +66,7 @@ class OnboardingPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                                color: Appcolor.white),
                           ),
                           SizedBox(
                             width: 10,
@@ -76,7 +76,7 @@ class OnboardingPage extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 24,
-                                color: Colors.white,
+                                color: Appcolor.white,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
@@ -85,7 +85,7 @@ class OnboardingPage extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                         description,
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: Appcolor.white, fontSize: 16),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 10),

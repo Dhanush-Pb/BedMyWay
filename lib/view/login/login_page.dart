@@ -95,7 +95,7 @@ class _LogingpageState extends State<Logingpage> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Appcolor.white,
                         prefixIcon: const Icon(Icons.mail_outline_outlined),
                         hintText: 'Email',
                         hintStyle: const TextStyle(
@@ -123,7 +123,7 @@ class _LogingpageState extends State<Logingpage> {
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
-                        fillColor: Colors.white,
+                        fillColor: Appcolor.white,
                         filled: true,
                         prefixIcon: const Icon(Icons.visibility_off),
                         hintText: 'Password',

@@ -1,5 +1,6 @@
 import 'package:bedmyway/Model/user_model.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
+import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
 import 'package:bedmyway/repositories/custom/custom_field2.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
@@ -155,9 +156,9 @@ class SignupPage extends StatelessWidget {
                               const Size(150.0, 35.0),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Register',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Appcolor.white),
                           ),
                         ),
                         const SizedBox(height: 15),

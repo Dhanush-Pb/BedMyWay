@@ -1,14 +1,18 @@
-import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
-import 'package:bedmyway/controller/bloc/auth_bloc.dart';
+// ignore_for_file: use_build_context_synchronously, unrelated_type_equality_checks
 
-import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
+import 'package:bedmyway/controller/messegebloc/fetchmsg/bloc/fetch_msg_bloc.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
-import 'package:bedmyway/repositories/custom/page_transition.dart';
+import 'package:bedmyway/repositories/custom/network.dart';
 
-import 'package:bedmyway/view/on_&_splash/on_bordin1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+
+import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
+import 'package:bedmyway/controller/bloc/auth_bloc.dart';
+import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
+import 'package:bedmyway/repositories/custom/page_transition.dart';
+import 'package:bedmyway/view/on_&_splash/on_bordin1.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({Key? key}) : super(key: key);
@@ -18,14 +22,14 @@ class Splashscreen extends StatefulWidget {
 }
 
 class _SplashscreenState extends State<Splashscreen> {
+  bool _checkedInternet = false; // Track if internet check is done
+
   @override
   void initState() {
-    BlocProvider.of<HoteldataBloc>(context).add(FetchdataEvent());
-
-    eventinzilizing();
-    const Onboarding1();
     super.initState();
-    // Call goto function on init
+    checkInternetAndShowSnackbar();
+    BlocProvider.of<HoteldataBloc>(context).add(FetchdataEvent());
+    eventInitializing();
   }
 
   @override
@@ -67,8 +71,17 @@ class _SplashscreenState extends State<Splashscreen> {
     );
   }
 
-  void eventinzilizing() {
+  void eventInitializing() {
     context.read<AuthBloc>().add(checkloginevern());
     context.read<RatingBloc>().add(FetchRatingdataEvent());
+    context.read<FetchMsgBloc>().add(FetchMessagesEvent());
+  }
+
+  void checkInternetAndShowSnackbar() async {
+    bool isConnected = await ConnectivityHelper.checkInternetConnectivity();
+    if (!isConnected && !_checkedInternet) {
+      _checkedInternet = true;
+      ConnectivityHelper.showNoInternetSnackbar(context);
+    }
   }
 }

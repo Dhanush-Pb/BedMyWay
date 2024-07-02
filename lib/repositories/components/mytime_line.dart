@@ -33,7 +33,7 @@ class Mytimeline extends StatelessWidget {
           color: isPrev ? const Color.fromARGB(255, 1, 44, 80) : Appcolor.red,
           iconStyle: IconStyle(
             iconData: Icons.done,
-            color: Colors.white,
+            color: Appcolor.white,
           ),
         ),
         endChild: Container(

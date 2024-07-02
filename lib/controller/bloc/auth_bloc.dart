@@ -44,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               .collection('userSide')
               .doc(user.uid)
               .set({
-            'displayName': event.usermodel.name,
+            'name': event.usermodel.name,
             'email': event.usermodel.email,
             'uid': user.uid,
             'phoneNumber': event.usermodel.phone,

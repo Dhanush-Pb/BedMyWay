@@ -1,16 +1,18 @@
 import 'package:bedmyway/repositories/colors/colors.dart';
+import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:flutter/material.dart';
 
 class AlternateHotelImagePage extends StatefulWidget {
   final List<dynamic> coverImages;
   final List<dynamic> pathImages;
   final int currentIndex;
-
+  final Map<String, dynamic> hotel;
   const AlternateHotelImagePage({
     Key? key,
     required this.coverImages,
     required this.pathImages,
     required this.currentIndex,
+    required this.hotel,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class _AlternateHotelImagePageState extends State<AlternateHotelImagePage> {
   late PageController _pageController;
   late int currentIndex;
 
+  late int index = currentIndex;
   @override
   void initState() {
     super.initState();
@@ -83,15 +86,11 @@ class _AlternateHotelImagePageState extends State<AlternateHotelImagePage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (currentIndex < widget.coverImages.length - 1) {
-                  _pageController.animateToPage(
-                    currentIndex + 1,
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                }
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        HotelDetailPage(hotel: widget.hotel)));
               },
-              child: const Text('Next Hotel'),
+              child: const Text('Chek now'),
             ),
             const SizedBox(height: 20),
             IconButton(

@@ -1,10 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, deprecated_member_use
 
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
-import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
+
 import 'package:bedmyway/repositories/components/bottm_sheet.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/more_info.dart';
@@ -140,21 +141,21 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 16),
-                                IconButton(
-                                  icon: Icon(
-                                    _isFavorite
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: _isFavorite
-                                        ? Appcolor.red2
-                                        : Appcolor.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isFavorite = !_isFavorite;
-                                    });
-                                  },
-                                ),
+                                // IconButton(
+                                //   icon: Icon(
+                                //     _isFavorite
+                                //         ? Icons.favorite
+                                //         : Icons.favorite_border,
+                                //     color: _isFavorite
+                                //         ? Appcolor.red2
+                                //         : Appcolor.white,
+                                //   ),
+                                //   onPressed: () {
+                                //     setState(() {
+                                //       _isFavorite = !_isFavorite;
+                                //     });
+                                //   },
+                                // ),
                               ],
                             ),
                           ),
@@ -420,7 +421,9 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                 roomImages: widget.hotel['images'],
                                 location: widget.hotel['locaton'],
                                 messageDirection: '',
+                                Reciverhoteldocid: widget.hotel['id'],
                               )));
+                              log(widget.hotel['id']);
                             },
                             child: Text(
                               'Moreinifo',
@@ -439,7 +442,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        "The choice BedMyWay property comes with a promise of 8 assured amenities, money-back guarantee and priority helpline support. You also get free cancellation and standardized prices through the year.",
+                        "The choice BedMyWay property comes with a promise of 5 assured amenities, money-back guarantee and priority helpline support. You also get free cancellation and standardized prices through the year.",
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),

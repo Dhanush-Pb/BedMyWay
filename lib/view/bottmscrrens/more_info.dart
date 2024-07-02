@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
+import 'package:bedmyway/view/bottmscrrens/Chat/chatpage.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -16,6 +18,7 @@ class MoreInfoPage extends StatefulWidget {
   final String location;
   final List<dynamic> roomImages;
   final String messageDirection;
+  final String Reciverhoteldocid;
 
   const MoreInfoPage({
     Key? key,
@@ -27,6 +30,7 @@ class MoreInfoPage extends StatefulWidget {
     required this.location,
     required this.contact,
     required this.messageDirection,
+    required this.Reciverhoteldocid,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,14 @@ class MoreInfoPage extends StatefulWidget {
 class _MoreInfoPageState extends State<MoreInfoPage> {
   bool showtourimage = false;
   int _currentindexT = 0;
+  User? currentuser;
+
+  get receiverId => null;
+  @override
+  void initState() {
+    currentuser = FirebaseAuth.instance.currentUser;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +154,14 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                             const Spacer(),
                             InkWell(
                               onTap: () {
-                                // Handle message
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ChatScreen(
+                                          senderEmail:
+                                              currentuser?.email ?? 'd',
+                                          receiverId: widget.Reciverhoteldocid,
+                                          hotelname: widget.hotelname,
+                                          phonenumber: widget.contact,
+                                        )));
                               },
                               child: const Row(
                                 children: [
@@ -221,7 +240,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                         baseColor: Appcolor.shimmercolor1,
                                         highlightColor: Appcolor.Shimmercolor2,
                                         child: Container(
-                                          color: Colors.white,
+                                          color: Appcolor.white,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: 160,
@@ -237,7 +256,7 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                       baseColor: Appcolor.shimmercolor1,
                                       highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
-                                        color: Colors.white,
+                                        color: Appcolor.white,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 160,
@@ -313,11 +332,11 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                           return child;
                                         } else {
                                           return Shimmer.fromColors(
-                                            baseColor: Appcolor.shimmercolor1!!,
+                                            baseColor: Appcolor.shimmercolor1,
                                             highlightColor:
-                                                Appcolor.Shimmercolor2!,
+                                                Appcolor.Shimmercolor2,
                                             child: Container(
-                                              color: Colors.white,
+                                              color: Appcolor.white,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
@@ -330,9 +349,9 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                           Object exception,
                                           StackTrace? stackTrace) {
                                         return Shimmer.fromColors(
-                                          baseColor: Appcolor.shimmercolor1!!,
+                                          baseColor: Appcolor.shimmercolor1,
                                           highlightColor:
-                                              Appcolor.Shimmercolor2!,
+                                              Appcolor.Shimmercolor2,
                                           child: Container(
                                             color: Appcolor.white,
                                             width: MediaQuery.of(context)
@@ -362,8 +381,8 @@ class _MoreInfoPageState extends State<MoreInfoPage> {
                                 right: 20,
                                 child: IconButton(
                                   highlightColor: Appcolor.red,
-                                  icon: const Icon(Icons.close,
-                                      color: Colors.white),
+                                  icon:
+                                      Icon(Icons.close, color: Appcolor.white),
                                   onPressed: () {
                                     setState(() {
                                       showtourimage = false;

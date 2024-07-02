@@ -164,6 +164,7 @@ class _ReusableBottomSheetState extends State<ReusableBottomSheet> {
                         roomImages: widget.roomImages,
                         location: widget.location,
                         docid: state.docid,
+                        hoteldocid: widget.hotelDocId,
                       ),
                     ),
                   );

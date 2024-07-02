@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -36,7 +34,6 @@ class RatingBloc extends Bloc<RatingEvent, RatingState> {
           Map<String, dynamic> data = hotelDoc.data() as Map<String, dynamic>;
           // data['id'] = hotelDoc.id;
           hotels.add(data);
-          log(data['Rating'].toString());
         }
       }
 

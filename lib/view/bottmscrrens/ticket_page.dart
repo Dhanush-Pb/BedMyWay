@@ -4,6 +4,9 @@ import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
 import 'package:bedmyway/repositories/custom/cancel_container.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
+import 'package:bedmyway/view/bottmscrrens/Chat/chatpage.dart';
+import 'package:bedmyway/view/bottmscrrens/booking_pade.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -54,6 +57,7 @@ class _BookticketpageState extends State<Bookticketpage> {
   @override
   void initState() {
     super.initState();
+    currentuser = FirebaseAuth.instance.currentUser;
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -360,7 +364,14 @@ class _BookticketpageState extends State<Bookticketpage> {
                   _buildActionItem(
                     icon: FontAwesomeIcons.comment,
                     label: 'Message',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                              senderEmail: currentuser?.email ?? '',
+                              receiverId: widget.bookingID,
+                              hotelname: widget.hotelName,
+                              phonenumber: widget.contact)));
+                    },
                   ),
                 ],
               ),

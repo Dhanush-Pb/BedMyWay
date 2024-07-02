@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:developer';
+
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
@@ -12,8 +14,12 @@ import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:bedmyway/view/bottmscrrens/search_page.dart';
 import 'package:bedmyway/view/bottmscrrens/story_view.dart';
 import 'package:bedmyway/view/login/login_page.dart';
+import 'package:bedmyway/view/login/sing_up.dart';
+import 'package:bedmyway/view/privacypolocy/about_page.dart';
+import 'package:bedmyway/view/privacypolocy/help_page.dart';
 import 'package:bedmyway/view/privacypolocy/privacy_policy.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,11 +37,33 @@ class _HomepageState extends State<Homepage> {
   int _currentIndex =
       0; // Added this line to track the current index of the carousel
   int _currentindex2 = 0;
+  bool _isConnected = false; // Track internet connectivity
+
   @override
   void initState() {
-    currentuserr = FirebaseAuth.instance.currentUser;
-
     super.initState();
+    currentuserr = FirebaseAuth.instance.currentUser;
+    checkConnectivity();
+  }
+
+// Inside your class or function
+  void checkConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    setState(() {
+      _isConnected = connectivityResult != ConnectivityResult.none;
+    });
+    if (!_isConnected) {
+      showNoInternetSnackbar();
+    }
+  }
+
+  void showNoInternetSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('No internet connection'),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
@@ -50,8 +78,7 @@ class _HomepageState extends State<Homepage> {
             children: [],
           ),
           leading: PreferredSize(
-            preferredSize: const Size(70,
-                kToolbarHeight), // Set the preferred size for the leading widget
+            preferredSize: const Size(70, kToolbarHeight),
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Builder(
@@ -388,23 +415,33 @@ class _HomepageState extends State<Homepage> {
                                   backgroundImage: NetworkImage(tourimage.last),
                                   radius: 43,
                                   child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(FadePageRoute(
-                                          page: AlternateHotelImagePage(
-                                        coverImages: hotel['coverimage'],
-                                        pathImages: hotel['pathimage'],
-                                        currentIndex: index,
-                                      )));
+                                    onTap: () async {
+                                      await Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AlternateHotelImagePage(
+                                                    coverImages:
+                                                        hotel['coverimage'],
+                                                    pathImages:
+                                                        hotel['pathimage'],
+                                                    currentIndex: index,
+                                                    hotel: state.hotels[index],
+                                                  )));
                                     },
                                     child: GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context)
-                                            .push(FadePageRoute(
-                                                page: AlternateHotelImagePage(
-                                          coverImages: hotel['coverimage'],
-                                          pathImages: hotel['pathimage'],
-                                          currentIndex: index,
-                                        )));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AlternateHotelImagePage(
+                                                      coverImages:
+                                                          hotel['coverimage'],
+                                                      pathImages:
+                                                          hotel['pathimage'],
+                                                      currentIndex: index,
+                                                      hotel:
+                                                          state.hotels[index],
+                                                    )));
                                       },
                                       child: CircleAvatar(
                                         radius: 40,
@@ -451,7 +488,7 @@ class _HomepageState extends State<Homepage> {
                               child: CarouselSlider(
                                 items: carouselItems,
                                 options: CarouselOptions(
-                                    height: 200,
+                                    height: 185,
                                     aspectRatio: 16 / 9,
                                     autoPlay: true,
                                     autoPlayCurve: Curves.easeInOutSine,
@@ -563,7 +600,7 @@ class _HomepageState extends State<Homepage> {
                       backgroundImage: currentuserr?.photoURL != null
                           ? NetworkImage(currentuserr!.photoURL!)
                           : const AssetImage(
-                              'assets/images/WhatsApp Image 2024-05-29 at 16.25.58_d7bc7d41.jpg',
+                              'assets/images/Screenshot 2024-06-23 135849.png',
                             ) as ImageProvider,
                     ),
                     Text(
@@ -584,6 +621,50 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ],
                 ),
+              ),
+              ListTile(
+                leading: Icon(Icons.privacy_tip, color: Appcolor.white),
+                title: Text(
+                  'Privacy Policy',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicy()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.help, color: Appcolor.white),
+                title: Text(
+                  'Help',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const HelpPage()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info, color: Appcolor.white),
+                title: Text(
+                  'About',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AboutPage()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.person_add, color: Appcolor.white),
+                title: Text(
+                  'Add Account',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SignupPage()));
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -616,35 +697,6 @@ class _HomepageState extends State<Homepage> {
                     },
                   );
                 },
-              ),
-              ListTile(
-                leading: Icon(Icons.privacy_tip, color: Appcolor.white),
-                title: Text(
-                  'Privacy Policy',
-                  style: TextStyle(color: Appcolor.white),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => PrivacyPolicy()));
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.help, color: Appcolor.white),
-                title: Text(
-                  'Help',
-                  style: TextStyle(color: Appcolor.white),
-                ),
-                onTap: () {
-                  // Handle help
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.info, color: Appcolor.white),
-                title: Text(
-                  'About',
-                  style: TextStyle(color: Appcolor.white),
-                ),
-                onTap: () {},
               ),
             ],
           ),

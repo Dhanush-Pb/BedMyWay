@@ -1,12 +1,15 @@
+import 'package:bedmyway/controller/messegebloc/fetchmsg/bloc/fetch_msg_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
-import 'package:bedmyway/firebase_options.dart';
+import 'package:bedmyway/controller/messegebloc/bloc/scoketmsg_bloc.dart';
+import 'package:bedmyway/repositories/Messegerepository/repository_mesg.dart';
 import 'package:bedmyway/view/on_&_splash/splash_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Instantiate MessageRepository
+    final MessageRepository messageRepository = MessageRepository();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -34,6 +40,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => RatingBloc(),
         ),
+        BlocProvider(
+          create: (context) =>
+              ScoketmsgBloc(messageRepository: messageRepository),
+        ),
+        BlocProvider(
+          create: (context) => FetchMsgBloc(),
+        )
       ],
       child: MaterialApp(
         title: 'BedMyWay',

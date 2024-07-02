@@ -7,8 +7,10 @@ import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
+import 'package:bedmyway/view/bottmscrrens/Chat/chatpage.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +27,7 @@ class Bookingsectionpage extends StatefulWidget {
   final String location;
   final List<dynamic> roomImages;
   final String docid;
-
+  final String hoteldocid;
   const Bookingsectionpage({
     Key? key,
     required this.TourImages,
@@ -37,11 +39,14 @@ class Bookingsectionpage extends StatefulWidget {
     required this.roomImages,
     required this.location,
     required this.docid,
+    required this.hoteldocid,
   }) : super(key: key);
 
   @override
   State<Bookingsectionpage> createState() => _BookingsectionpageState();
 }
+
+User? currentuser;
 
 class _BookingsectionpageState extends State<Bookingsectionpage> {
   bool showtourimage = false;
@@ -51,6 +56,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
   @override
   void initState() {
     super.initState();
+    currentuser = FirebaseAuth.instance.currentUser;
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -221,7 +227,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                             highlightColor:
                                                 Appcolor.Shimmercolor2,
                                             child: Container(
-                                              color: Colors.white,
+                                              color: Appcolor.white,
                                             ),
                                           ),
                                   ),
@@ -242,7 +248,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                             highlightColor:
                                                 Appcolor.Shimmercolor2,
                                             child: Container(
-                                              color: Colors.white,
+                                              color: Appcolor.white,
                                             ),
                                           ),
                                   ),
@@ -330,10 +336,10 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const Text(
+                                Text(
                                   'Pay Now',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Appcolor.white,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -368,7 +374,12 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                               icon: FontAwesomeIcons.comment,
                               label: 'Message',
                               onTap: () {
-                                // Handle message action
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ChatScreen(
+                                        senderEmail: currentuser?.email ?? '',
+                                        receiverId: widget.hoteldocid,
+                                        hotelname: widget.hotelname,
+                                        phonenumber: widget.contact)));
                               },
                             ),
                           ],
@@ -414,7 +425,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                         baseColor: Appcolor.shimmercolor1,
                                         highlightColor: Appcolor.Shimmercolor2,
                                         child: Container(
-                                          color: Colors.white,
+                                          color: Appcolor.white,
                                           width:
                                               MediaQuery.of(context).size.width,
                                           height: 160,
@@ -430,7 +441,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                       baseColor: Appcolor.shimmercolor1,
                                       highlightColor: Appcolor.Shimmercolor2,
                                       child: Container(
-                                        color: Colors.white,
+                                        color: Appcolor.white,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         height: 160,
@@ -479,7 +490,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                   });
                 },
                 child: Container(
-                  color: Colors.black.withOpacity(0.8),
+                  color: Appcolor.black.withOpacity(0.8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -510,7 +521,7 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                             highlightColor:
                                                 Appcolor.Shimmercolor2,
                                             child: Container(
-                                              color: Colors.white,
+                                              color: Appcolor.white,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
@@ -555,8 +566,8 @@ class _BookingsectionpageState extends State<Bookingsectionpage> {
                                 right: 20,
                                 child: IconButton(
                                   highlightColor: Appcolor.red,
-                                  icon: const Icon(Icons.close,
-                                      color: Colors.white),
+                                  icon:
+                                      Icon(Icons.close, color: Appcolor.white),
                                   onPressed: () {
                                     setState(() {
                                       showtourimage = false;
