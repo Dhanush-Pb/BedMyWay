@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+
 import 'package:bedmyway/Model/Messege.dart';
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -9,8 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String senderEmail; // Replace with actual sender's email
-  final String receiverId; // Replace with actual receiver's ID
+  final String senderEmail;
+  final String receiverId;
   final String hotelname;
   final String phonenumber;
 
@@ -75,8 +77,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +115,7 @@ class _ChatScreenState extends State<ChatScreen> {
           // Background image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/543de8a1f2887da54f7b7de6772f6aa2.jpg', // Path to your background image
+              'assets/images/543de8a1f2887da54f7b7de6772f6aa2.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -196,8 +196,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                       child: TextFormField(
                         controller: _messageController,
-                        maxLines: null, // Allow multiline input
-                        minLines: 1, // Initial height of the TextFormField
+                        maxLines: 10,
+                        minLines: 1,
                         keyboardType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
                         decoration: InputDecoration(

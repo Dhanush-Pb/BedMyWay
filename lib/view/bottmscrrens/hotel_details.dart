@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, deprecated_member_use
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, prefer_final_fields
 
 import 'dart:developer';
 import 'dart:ui';
@@ -7,6 +7,7 @@ import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/controller/Ratebloc/bloc/rating_bloc.dart';
 
 import 'package:bedmyway/repositories/components/bottm_sheet.dart';
+import 'package:bedmyway/repositories/custom/network.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/bottmscrrens/more_info.dart';
 
@@ -28,8 +29,13 @@ class HotelDetailPage extends StatefulWidget {
 class _HotelDetailPageState extends State<HotelDetailPage> {
   int _currentIndex = 0;
   int _currentindex2 = 0;
-  bool _isFavorite = false;
   bool _showimagepriviw = false;
+  @override
+  void initState() {
+    InternetConnectionChecker.start(context);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +111,7 @@ class _HotelDetailPageState extends State<HotelDetailPage> {
                                             Object exception,
                                             StackTrace? stackTrace) {
                                           return Shimmer.fromColors(
-                                            baseColor: const Color.fromARGB(
-                                                255, 111, 111, 111),
+                                            baseColor: Appcolor.shimmercolor1,
                                             highlightColor:
                                                 const Color.fromARGB(
                                                     255, 196, 195, 195),

@@ -7,7 +7,7 @@ import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/controller/messegebloc/bloc/scoketmsg_bloc.dart';
-import 'package:bedmyway/repositories/Messegerepository/repository_mesg.dart';
+import 'package:bedmyway/repositories/custom/Messegerepository/repository_mesg.dart';
 import 'package:bedmyway/view/on_&_splash/splash_screen.dart';
 import 'firebase_options.dart';
 

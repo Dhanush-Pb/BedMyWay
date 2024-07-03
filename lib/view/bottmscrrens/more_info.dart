@@ -1,4 +1,4 @@
-import 'dart:ui';
+// ignore_for_file: non_constant_identifier_names
 
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';

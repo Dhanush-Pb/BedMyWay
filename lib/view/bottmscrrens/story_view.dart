@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:flutter/material.dart';

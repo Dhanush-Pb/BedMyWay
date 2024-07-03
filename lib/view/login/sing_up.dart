@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:bedmyway/Model/user_model.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -29,8 +31,8 @@ class SignupPage extends StatelessWidget {
           listener: (context, state) {
             if (state is Authenticated) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context)
-                    .pushReplacement(FadePageRoute(page: NavigationMenu()));
+                Navigator.of(context).pushReplacement(
+                    FadePageRoute(page: const NavigationMenu()));
               });
             } else if (state is AuthenticateError) {
               ScaffoldMessenger.of(context).showSnackBar(

@@ -10,7 +10,7 @@ class PrivacyPolicy extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Privacy Policy',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
         ),
@@ -110,7 +110,7 @@ class PrivacyPolicy extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Text('Email : '),
+                  const Text('Email : '),
                   Text(
                     'BedMyWay@gmail.com',
                     style: TextStyle(fontSize: 12, color: Appcolor.blue),
@@ -118,7 +118,7 @@ class PrivacyPolicy extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ],

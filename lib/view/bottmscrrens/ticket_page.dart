@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, empty_catches, library_private_types_in_public_api, use_key_in_widget_constructors
+
 import 'package:bedmyway/Model/goolgle_map.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -124,9 +126,7 @@ class _BookticketpageState extends State<Bookticketpage> {
 
     try {
       _razorpay.open(options);
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   @override
@@ -293,8 +293,6 @@ class _BookticketpageState extends State<Bookticketpage> {
                       child: InkWell(
                         onTap: () {
                           _openCheckout();
-
-                          print('THIS IS THE RATING ${_rating}');
                         },
                         child: Container(
                           decoration: BoxDecoration(

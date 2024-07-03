@@ -2,7 +2,6 @@
 
 import 'package:bedmyway/controller/messegebloc/fetchmsg/bloc/fetch_msg_bloc.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';
-import 'package:bedmyway/repositories/custom/network.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,12 +21,12 @@ class Splashscreen extends StatefulWidget {
 }
 
 class _SplashscreenState extends State<Splashscreen> {
-  bool _checkedInternet = false; // Track if internet check is done
+// Track if internet check is done
 
   @override
   void initState() {
     super.initState();
-    checkInternetAndShowSnackbar();
+
     BlocProvider.of<HoteldataBloc>(context).add(FetchdataEvent());
     eventInitializing();
   }
@@ -75,13 +74,5 @@ class _SplashscreenState extends State<Splashscreen> {
     context.read<AuthBloc>().add(checkloginevern());
     context.read<RatingBloc>().add(FetchRatingdataEvent());
     context.read<FetchMsgBloc>().add(FetchMessagesEvent());
-  }
-
-  void checkInternetAndShowSnackbar() async {
-    bool isConnected = await ConnectivityHelper.checkInternetConnectivity();
-    if (!isConnected && !_checkedInternet) {
-      _checkedInternet = true;
-      ConnectivityHelper.showNoInternetSnackbar(context);
-    }
   }
 }

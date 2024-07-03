@@ -1,8 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bedmyway/Model/Messege.dart';
-import 'package:bedmyway/repositories/Messegerepository/repository_mesg.dart';
+import 'package:bedmyway/repositories/custom/Messegerepository/repository_mesg.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:meta/meta.dart';
 
 part 'scoketmsg_event.dart';
@@ -10,8 +11,6 @@ part 'scoketmsg_state.dart';
 
 class ScoketmsgBloc extends Bloc<ScoketmsgEvent, ScoketmsgState> {
   final MessageRepository _messageRepository;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   ScoketmsgBloc({required MessageRepository messageRepository})
       : _messageRepository = messageRepository,
         super(ScoketmsgInitial()) {

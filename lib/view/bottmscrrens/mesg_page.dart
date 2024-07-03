@@ -17,7 +17,7 @@ class _MessegepageState extends State<Messegepage> {
   @override
   void initState() {
     BlocProvider.of<FetchMsgBloc>(context).add(FetchMessagesEvent());
-    // TODO: implement initState
+
     super.initState();
   }
 
@@ -41,6 +41,11 @@ class _MessegepageState extends State<Messegepage> {
               child: CircularProgressIndicator(),
             );
           } else if (state is FetchMsgSuccess) {
+            state.messages.sort((a, b) {
+              Timestamp timestampA = a['timestamp'];
+              Timestamp timestampB = b['timestamp'];
+              return timestampB.compareTo(timestampA);
+            });
             List<Map<String, dynamic>> messages = state.messages;
             return RefreshIndicator(
                 onRefresh: () async {
@@ -97,7 +102,9 @@ class _MessegepageState extends State<Messegepage> {
                                 ],
                               ),
                             ),
-                            const Divider(),
+                            const Divider(
+                              thickness: 0.3,
+                            ),
                           ],
                         ),
                       ),

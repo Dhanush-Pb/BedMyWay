@@ -1,6 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unrelated_type_equality_checks, avoid_print
 
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
@@ -9,20 +9,27 @@ import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/flight_tain.dart';
 import 'package:bedmyway/repositories/custom/alertdiloge.dart';
+import 'package:bedmyway/repositories/custom/network.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
+import 'package:bedmyway/repositories/custom/shimmer_page.dart';
 import 'package:bedmyway/view/bottmscrrens/hotel_details.dart';
 import 'package:bedmyway/view/bottmscrrens/search_page.dart';
 import 'package:bedmyway/view/bottmscrrens/story_view.dart';
 import 'package:bedmyway/view/login/login_page.dart';
 import 'package:bedmyway/view/login/sing_up.dart';
 import 'package:bedmyway/view/privacypolocy/about_page.dart';
+import 'package:bedmyway/view/privacypolocy/community_guid.dart';
+import 'package:bedmyway/view/privacypolocy/feedback_.dart';
 import 'package:bedmyway/view/privacypolocy/help_page.dart';
 import 'package:bedmyway/view/privacypolocy/privacy_policy.dart';
+import 'package:bedmyway/view/privacypolocy/terms_condition.dart';
+import 'package:bedmyway/view/privacypolocy/user_Guide.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Homepage extends StatefulWidget {
@@ -34,36 +41,14 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   User? currentuserr;
-  int _currentIndex =
-      0; // Added this line to track the current index of the carousel
+  int _currentIndex = 0;
   int _currentindex2 = 0;
-  bool _isConnected = false; // Track internet connectivity
 
   @override
   void initState() {
     super.initState();
     currentuserr = FirebaseAuth.instance.currentUser;
-    checkConnectivity();
-  }
-
-// Inside your class or function
-  void checkConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    setState(() {
-      _isConnected = connectivityResult != ConnectivityResult.none;
-    });
-    if (!_isConnected) {
-      showNoInternetSnackbar();
-    }
-  }
-
-  void showNoInternetSnackbar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No internet connection'),
-        duration: Duration(seconds: 3),
-      ),
-    );
+    InternetConnectionChecker.start(context);
   }
 
   @override
@@ -558,26 +543,8 @@ class _HomepageState extends State<Homepage> {
               ),
             );
           }
-          return ListView.builder(
-            itemCount: 25, // Number of shimmer items
-            itemBuilder: (context, index) {
-              return Shimmer.fromColors(
-                baseColor: Appcolor.shimmercolor1,
-                highlightColor: Appcolor.Shimmercolor2,
-                child: ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 60,
-                    color: Appcolor.grey,
-                  ),
-                  title: Container(
-                    color: Appcolor.grey,
-                    height: 10,
-                  ),
-                ),
-              );
-            },
-          );
+
+          return ShimmerClass();
         },
       ),
 
@@ -634,6 +601,28 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
               ListTile(
+                leading: Icon(Icons.description, color: Appcolor.white),
+                title: Text(
+                  'Terms & Condition',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const TermsAndConditionsPage()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.feedback, color: Appcolor.white),
+                title: Text(
+                  'Feedback',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const FeedbackPage()));
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.help, color: Appcolor.white),
                 title: Text(
                   'Help',
@@ -642,6 +631,28 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const HelpPage()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.policy, color: Appcolor.white),
+                title: Text(
+                  'Community Guidelines',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CommunityGuidelinesPage()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.menu_book, color: Appcolor.white),
+                title: Text(
+                  'User Guide',
+                  style: TextStyle(color: Appcolor.white),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const UserGuidePage()));
                 },
               ),
               ListTile(
@@ -698,6 +709,17 @@ class _HomepageState extends State<Homepage> {
                   );
                 },
               ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text(
+                    'version 1.0.0',
+                    style: TextStyle(color: Appcolor.white),
+                  )
+                ],
+              )
             ],
           ),
         ),

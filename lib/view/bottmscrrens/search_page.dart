@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/repositories/components/filtertion_.dart';
@@ -69,7 +69,7 @@ class _SearchpageState extends State<Searchpage> {
     return BlocListener<HoteldataBloc, HoteldataState>(
       listener: (context, state) {
         if (state is HotelDataerror) {
-          print(state.error);
+          //    print(state.error);
         }
       },
       child: Scaffold(
@@ -107,7 +107,7 @@ class _SearchpageState extends State<Searchpage> {
                         });
                       },
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 5.0),
                     const Text(
                       'Filter by Price',
                       style:

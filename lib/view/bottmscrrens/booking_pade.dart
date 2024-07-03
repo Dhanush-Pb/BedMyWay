@@ -1,6 +1,4 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:ui';
+// ignore_for_file: deprecated_member_use, avoid_print, non_constant_identifier_names
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bedmyway/Model/goolgle_map.dart';

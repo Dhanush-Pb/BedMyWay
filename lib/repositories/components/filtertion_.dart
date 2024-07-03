@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, no_leading_underscores_for_local_identifiers
+
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,7 @@ class filtretionclass {
     if (state is HotelDatafetched) {
       _filteredHotels = List<Map<String, dynamic>>.from(state.hotels);
 
-      // Filter by search query
+      //! Filter by search
       if (searchController.text.isNotEmpty) {
         _filteredHotels.retainWhere((hotel) {
           final name = (hotel['name'] ?? '').toLowerCase();
@@ -26,7 +28,7 @@ class filtretionclass {
         });
       }
 
-      // Filter by price range
+      //! Filter by price
       if (selectedPriceRange.isNotEmpty) {
         _filteredHotels.retainWhere((hotel) {
           final hotelPrice = int.tryParse(hotel['price'].replaceAll(',', ''));
@@ -54,7 +56,7 @@ class filtretionclass {
         });
       }
 
-      // Filter by room type
+      //! Filter by room
       if (selectedRoomType.isNotEmpty) {
         _filteredHotels.retainWhere((hotel) {
           final roomType = (hotel['Room'] ?? '').toLowerCase();
@@ -62,7 +64,7 @@ class filtretionclass {
         });
       }
 
-      // Filter by additional filters (A/C, Non A/C, etc.)
+      //! Filter by  (A/C,food,refund,wifi)
       if (selectedFood.isNotEmpty) {
         _filteredHotels.retainWhere((hotel) {
           final foodOption = (hotel['foodoption'] ?? '').toLowerCase();

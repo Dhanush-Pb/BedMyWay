@@ -121,7 +121,7 @@ class _CancelButtonState extends State<CancelButton> {
                   );
 
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => NavigationMenu()));
+                      builder: (context) => const NavigationMenu()));
                 }
               },
               style: ButtonStyle(

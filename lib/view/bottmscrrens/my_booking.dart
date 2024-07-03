@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, prefer_const_constructors, avoid_print, use_key_in_widget_constructors
 
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
@@ -70,7 +70,13 @@ class _MybookingState extends State<Mybooking> {
 
   Widget _buildBookingList(Map<String, dynamic> bookingData) {
     List bookings = bookingData.values.toList();
-
+    bookings.sort((a, b) {
+      DateTime dateA =
+          DateFormat('yyyy-MMMM-dd – hh:mm a').parse(a['bookeddate']);
+      DateTime dateB =
+          DateFormat('yyyy-MMMM-dd – hh:mm a').parse(b['bookeddate']);
+      return dateB.compareTo(dateA);
+    });
     return ListView.builder(
       itemCount: bookings.length,
       itemBuilder: (context, index) {
@@ -97,9 +103,12 @@ class _MybookingState extends State<Mybooking> {
             DateFormat('yyyy-MMMM-dd – hh:mm a').parse(booking['bookeddate']);
         String formattedDate = DateFormat('yyyy-MMMM-dd').format(bookingDate);
         return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
           child: Card(
-            margin: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.only(top: 8, bottom: 5, left: 8, right: 8),
             child: ListTile(
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +120,7 @@ class _MybookingState extends State<Mybooking> {
                   Text(
                     hotelName,
                     style: const TextStyle(fontWeight: FontWeight.w600),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
