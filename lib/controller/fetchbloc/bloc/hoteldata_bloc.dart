@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, depend_on_referenced_packages
 
 import 'dart:developer';
 import 'package:bloc/bloc.dart';

@@ -302,8 +302,7 @@ class _SearchpageState extends State<Searchpage> {
                                           } else {
                                             // Display shimmer while loading
                                             return Shimmer.fromColors(
-                                              baseColor:
-                                                  Appcolor.shimmercolor1!,
+                                              baseColor: Appcolor.shimmercolor1,
                                               highlightColor:
                                                   Appcolor.Shimmercolor2,
                                               child: Container(
@@ -321,7 +320,7 @@ class _SearchpageState extends State<Searchpage> {
                                             StackTrace? stackTrace) {
                                           // Display shimmer if there's an error loading the image
                                           return Shimmer.fromColors(
-                                            baseColor: Appcolor.shimmercolor1!,
+                                            baseColor: Appcolor.shimmercolor1,
                                             highlightColor:
                                                 Appcolor.Shimmercolor2,
                                             child: Container(

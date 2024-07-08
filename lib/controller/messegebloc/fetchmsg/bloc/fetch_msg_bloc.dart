@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -20,7 +22,7 @@ class FetchMsgBloc extends Bloc<FetchMsgEvent, FetchMsgState> {
       FetchMessagesEvent event, Emitter<FetchMsgState> emit) async {
     emit(FetchMsgLoading());
     try {
-      print('Fetching messages...');
+      //  print('Fetching messages...');
       String userId = await _getUserId();
       QuerySnapshot messageSnapshot = await _firestore
           .collection('userSide')
@@ -50,7 +52,7 @@ class FetchMsgBloc extends Bloc<FetchMsgEvent, FetchMsgState> {
         emit(FetchMsgFailure('No messages found for user'));
       }
     } catch (e) {
-      print('Error fetching messages: $e');
+      //print('Error fetching messages: $e');
       emit(FetchMsgFailure(e.toString()));
     }
   }

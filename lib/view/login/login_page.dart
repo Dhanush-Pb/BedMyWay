@@ -54,26 +54,60 @@ class _LogingpageState extends State<Logingpage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is AuthenticateError) {
-          // Show Snackbar if authentication error occurs
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                duration: const Duration(seconds: 1),
-                content: const Text(
-                  'Invalid email or password',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w700,
+          if (state.messege.contains('password')) {
+            String errorMessage = 'Invalid password';
+            // Show Snackbar if authentication error occurs
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 1),
+                  content: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          errorMessage,
+                          style: TextStyle(
+                            color: Appcolor.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  backgroundColor: Appcolor.goole,
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.only(bottom: 8, left: 60, right: 60),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: .0, vertical: 10),
                 ),
-                backgroundColor: Appcolor.red,
-                behavior: SnackBarBehavior.floating,
-                margin: const EdgeInsets.only(bottom: 675, left: 18, right: 18),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 12.0),
-              ),
-            );
-          });
+              );
+            });
+          } else if (state.messege.contains('email')) {
+            String errorMessage = 'Invalid email';
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 1),
+                  content: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          errorMessage,
+                          style: TextStyle(
+                            color: Appcolor.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  backgroundColor: Appcolor.goole,
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.only(bottom: 8, left: 60, right: 60),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: .0, vertical: 10),
+                ),
+              );
+            });
+          }
         }
         return Form(
           key: _formKey,

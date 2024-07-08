@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:developer';
 
@@ -55,13 +55,12 @@ Future<void> signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
 
     await GoogleSignIn().signOut();
-
+    await Future.delayed(const Duration(milliseconds: 500));
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const Logingpage()),
       (Route<dynamic> route) => false,
     );
   } catch (error) {
-    // ignore: avoid_print
     print("Error signing out: $error");
   }
 }

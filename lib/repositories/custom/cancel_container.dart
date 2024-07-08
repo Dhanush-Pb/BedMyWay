@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bedmyway/controller/booking/bloc/book_bloc.dart';
 import 'package:bedmyway/repositories/components/bottm_page.dart';

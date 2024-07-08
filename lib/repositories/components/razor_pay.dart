@@ -1,4 +1,6 @@
 // razorpay_payment.dart
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -76,7 +78,7 @@ class _RazorpayPaymentState extends State<RazorpayPayment> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      print(e.toString());
+      //  print(e.toString());
     }
   }
 

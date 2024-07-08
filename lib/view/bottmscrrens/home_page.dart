@@ -1,6 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unrelated_type_equality_checks, avoid_print
-
-import 'dart:async';
+// ignore_for_file: non_constant_identifier_names, unrelated_type_equality_checks, avoid_print, use_build_context_synchronously, prefer_const_constructors
 
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
@@ -25,11 +23,9 @@ import 'package:bedmyway/view/privacypolocy/privacy_policy.dart';
 import 'package:bedmyway/view/privacypolocy/terms_condition.dart';
 import 'package:bedmyway/view/privacypolocy/user_Guide.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Homepage extends StatefulWidget {
@@ -699,6 +695,7 @@ class _HomepageState extends State<Homepage> {
                           signOut(context);
                           AuthBlocs.add(logoutevent());
                           AuthBlocs.add(GoogleSignOutEvent());
+                          Future.delayed(const Duration(milliseconds: 500));
                           Navigator.of(context).pushAndRemoveUntil(
                             FadePageRoute(page: const Logingpage()),
                             (route) => false,

@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrainPlane extends StatelessWidget {
@@ -110,7 +113,10 @@ class TrainPlane extends StatelessWidget {
                 onPressed: () {
                   launchUrl(Uri.parse('https://www.redbus.in/'));
                 },
-                icon: const Icon(Icons.bus_alert_outlined),
+                icon: Icon(
+                  FontAwesomeIcons.bus,
+                  size: 25,
+                ),
                 color: Appcolor.red2,
               ),
             ),

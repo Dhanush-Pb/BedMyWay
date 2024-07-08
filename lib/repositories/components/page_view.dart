@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/view/login/login_page.dart';
@@ -14,7 +14,7 @@ class OnboardingPage extends StatelessWidget {
   final String previousText;
   final VoidCallback onPreviousPressed;
   final String? beforetitle;
-  OnboardingPage({
+  const OnboardingPage({
     required this.beforetitle,
     required this.title,
     required this.description,

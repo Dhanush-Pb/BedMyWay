@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bedmyway/view/bottmscrrens/home_page.dart';
@@ -61,7 +63,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
               text: 'Booked',
             ),
             GButton(
-              icon: FontAwesomeIcons.search,
+              icon: FontAwesomeIcons.magnifyingGlass,
               iconSize: 19,
               text: 'Search',
             ),
