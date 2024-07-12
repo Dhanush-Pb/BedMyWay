@@ -3,7 +3,7 @@
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/flight_tain.dart';
 import 'package:bedmyway/repositories/custom/alertdiloge.dart';
@@ -19,7 +19,6 @@ import 'package:bedmyway/view/privacypolocy/about_page.dart';
 import 'package:bedmyway/view/privacypolocy/community_guid.dart';
 import 'package:bedmyway/view/privacypolocy/feedback_.dart';
 import 'package:bedmyway/view/privacypolocy/help_page.dart';
-import 'package:bedmyway/view/privacypolocy/privacy_policy.dart';
 import 'package:bedmyway/view/privacypolocy/terms_condition.dart';
 import 'package:bedmyway/view/privacypolocy/user_Guide.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -592,8 +591,8 @@ class _HomepageState extends State<Homepage> {
                   style: TextStyle(color: Appcolor.white),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const PrivacyPolicy()));
+                  launchUrl(Uri.parse(
+                      'https://doc-hosting.flycricket.io/bedmyway-privacy-policy/f89c647a-a80c-4181-99b4-90d39aca44a5/privacy'));
                 },
               ),
               ListTile(
@@ -712,7 +711,7 @@ class _HomepageState extends State<Homepage> {
                     height: 40,
                   ),
                   Text(
-                    'version 1.0.0',
+                    'version 1.0.1',
                     style: TextStyle(color: Appcolor.white),
                   )
                 ],

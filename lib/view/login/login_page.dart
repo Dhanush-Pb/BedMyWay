@@ -1,10 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bedmyway/Model/google_sing.dart';
 import 'package:bedmyway/controller/bloc/auth_bloc.dart';
 import 'package:bedmyway/controller/fetchbloc/bloc/hoteldata_bloc.dart';
 import 'package:bedmyway/repositories/colors/colors.dart';
 import 'package:bedmyway/repositories/components/Bottm_page.dart';
+import 'package:bedmyway/repositories/components/snackbar.dart';
 import 'package:bedmyway/repositories/custom/page_transition.dart';
 import 'package:bedmyway/view/login/sing_up.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,6 +25,7 @@ class _LogingpageState extends State<Logingpage> {
   final TextEditingController _passwordController = TextEditingController();
   String? _emailError;
   String? _passwordError;
+  bool _isSnackbarShown = false;
   @override
   void dispose() {
     _emailController.text;
@@ -53,62 +58,7 @@ class _LogingpageState extends State<Logingpage> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is AuthenticateError) {
-          if (state.messege.contains('password')) {
-            String errorMessage = 'Invalid password';
-            // Show Snackbar if authentication error occurs
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: const Duration(seconds: 1),
-                  content: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          errorMessage,
-                          style: TextStyle(
-                            color: Appcolor.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  backgroundColor: Appcolor.goole,
-                  behavior: SnackBarBehavior.floating,
-                  margin: const EdgeInsets.only(bottom: 8, left: 60, right: 60),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: .0, vertical: 10),
-                ),
-              );
-            });
-          } else if (state.messege.contains('email')) {
-            String errorMessage = 'Invalid email';
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: const Duration(seconds: 1),
-                  content: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          errorMessage,
-                          style: TextStyle(
-                            color: Appcolor.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  backgroundColor: Appcolor.goole,
-                  behavior: SnackBarBehavior.floating,
-                  margin: const EdgeInsets.only(bottom: 8, left: 60, right: 60),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: .0, vertical: 10),
-                ),
-              );
-            });
-          }
-        }
+        } else if (state is AuthenticateError) {}
         return Form(
           key: _formKey,
           child: Column(
@@ -185,14 +135,29 @@ class _LogingpageState extends State<Logingpage> {
                     ),
                     const SizedBox(height: 40),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          BlocProvider.of<AuthBloc>(context).add(
-                            Loginevent(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
-                          );
+                          // Attempt to sign in with Firebase
+                          String email = _emailController.text;
+                          String password = _passwordController.text;
+
+                          try {
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+
+                            // If successful, navigate to next screen
+                            BlocProvider.of<AuthBloc>(context).add(
+                              Loginevent(email: email, password: password),
+                            );
+                          } catch (e) {
+                            // Handle sign-in errors (e.g., wrong password, invalid email)
+
+                            snackbar.showErrorMessageSnackBar(
+                                context, 'Invalid email or password');
+                          }
                         }
                       },
                       child: Container(
